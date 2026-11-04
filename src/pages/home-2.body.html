@@ -1,16 +1,32 @@
 <!-- ============ HOME 2 ============ -->
 
-<!-- 1. Hero + program finder -->
-<section class="relative overflow-hidden pb-16 pt-10 lg:pt-14" aria-labelledby="h2-title">
+<!-- 1. Hero -->
+<section class="page-hero h2-hero relative overflow-hidden" aria-labelledby="h2-title">
   <div aria-hidden="true" class="pointer-events-none absolute inset-0" style="background:radial-gradient(40% 50% at 12% 10%, var(--saffron-soft), transparent 70%), radial-gradient(45% 55% at 92% 20%, var(--brand-soft), transparent 70%)"></div>
   <div class="container relative">
     <div class="reveal mx-auto max-w-3xl text-center">
       <span class="eyebrow">For children aged 4 to 12</span>
       <h1 id="h2-title" class="center">Every child can be a <span class="text-brand">numbers person</span>.</h1>
       <p class="lead mx-auto">Abacus and Vedic Maths at our academy or live online. Tell us about your child — we’ll suggest where to begin.</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a class="btn btn-primary" href="#finder-section">Find the right program</a>
+        <a class="btn btn-outline" href="#enrol">Reserve a free trial</a>
+      </div>
     </div>
 
-    <div class="reveal mt-10 grid grid-cols-1 overflow-hidden rounded-[32px] border border-line bg-surface shadow-lift lg:grid-cols-[1fr_1.15fr]">
+    <ul class="reveal m-0 mx-auto mt-12 grid max-w-4xl list-none grid-cols-2 gap-x-6 gap-y-4 p-0 md:grid-cols-4">
+      <li class="flex items-center gap-3"><span class="ico ico-brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.8-3.4 3.2-5.5 6-5.5s5.2 2.1 6 5.5M16 4.5a3.5 3.5 0 0 1 0 7M21 20c-.5-2.2-1.6-3.8-3-4.7"/></svg></span><span><b class="block font-display text-xl text-ink">2,400+</b><span class="text-sm font-semibold text-muted">Learners trained</span></span></li>
+      <li class="flex items-center gap-3"><span class="ico ico-saffron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/></svg></span><span><b class="block font-display text-xl text-ink">38</b><span class="text-sm font-semibold text-muted">National champions</span></span></li>
+      <li class="flex items-center gap-3"><span class="ico ico-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span><span><b class="block font-display text-xl text-ink">2 + online</b><span class="text-sm font-semibold text-muted">Centres &amp; live classes</span></span></li>
+      <li class="flex items-center gap-3"><span class="ico ico-coral"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg></span><span><b class="block font-display text-xl text-ink">4.9 / 5</b><span class="text-sm font-semibold text-muted">From 860+ parents</span></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 1b. Program finder -->
+<section class="h2-finder" id="finder-section" aria-labelledby="finder-title">
+  <div class="container">
+    <div class="reveal grid grid-cols-1 overflow-hidden rounded-[32px] border border-line bg-surface shadow-lift lg:grid-cols-[1fr_1.15fr]">
       <div class="relative min-h-[300px] lg:min-h-full">
         <img class="absolute inset-0 h-full w-full object-cover" src="{{img:1727473704274-3fbad0dbbd60|1000|Home 2 · Hero finder — smiling girl in a busy classroom}}" alt="A smiling girl at her desk among classmates" fetchpriority="high">
         <div class="absolute bottom-4 start-4 end-4 flex flex-wrap gap-2">
@@ -63,12 +79,6 @@
       </form>
     </div>
 
-    <ul class="reveal m-0 mt-8 grid list-none grid-cols-2 gap-x-6 gap-y-4 p-0 md:grid-cols-4">
-      <li class="flex items-center gap-3"><span class="ico ico-brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.8-3.4 3.2-5.5 6-5.5s5.2 2.1 6 5.5M16 4.5a3.5 3.5 0 0 1 0 7M21 20c-.5-2.2-1.6-3.8-3-4.7"/></svg></span><span><b class="block font-display text-xl text-ink">2,400+</b><span class="text-sm font-semibold text-muted">Learners trained</span></span></li>
-      <li class="flex items-center gap-3"><span class="ico ico-saffron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/></svg></span><span><b class="block font-display text-xl text-ink">38</b><span class="text-sm font-semibold text-muted">National champions</span></span></li>
-      <li class="flex items-center gap-3"><span class="ico ico-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span><span><b class="block font-display text-xl text-ink">2 + online</b><span class="text-sm font-semibold text-muted">Centres &amp; live classes</span></span></li>
-      <li class="flex items-center gap-3"><span class="ico ico-coral"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg></span><span><b class="block font-display text-xl text-ink">4.9 / 5</b><span class="text-sm font-semibold text-muted">From 860+ parents</span></span></li>
-    </ul>
   </div>
 </section>
 

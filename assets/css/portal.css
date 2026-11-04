@@ -426,3 +426,39 @@
 [dir="rtl"] .profile-card .pc-body { direction: rtl; }
 [dir="rtl"] .table td { text-align: right; }
 @media (max-width: 760px) { [dir="rtl"] .welcome .w-img::before { background: linear-gradient(0deg, var(--band), transparent 50%); } }
+
+/* ---------- Mobile: header controls live inside the menu (desktop/tablet unchanged) ---------- */
+.side-mobile { display: none; }
+.side-signout { display: flex; align-items: center; gap: 12px; width: 100%; padding: 11px 12px; border: 0; border-radius: 12px; background: none; color: var(--coral); font: inherit; font-size: .95rem; font-weight: 600; text-align: start; cursor: pointer; }
+.side-signout svg { width: 20px; height: 20px; flex-shrink: 0; }
+.side-signout:hover { background: var(--coral-soft); }
+@media (max-width: 760px) {
+  .topbar-tools { display: none; }
+  .side-mobile { display: grid; gap: 12px; padding-block-end: 16px; border-block-end: 1px solid var(--line); }
+  .sm-who { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 12px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 14px; }
+  .sm-who .initials { width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px; font-size: .9rem; }
+  .sm-who > div { min-width: 0; }
+  .sm-who strong { display: block; color: var(--ink); }
+  .sm-who > div > span { display: block; font-size: .8rem; color: var(--muted); overflow-wrap: anywhere; }
+  .sm-tools { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-inline: 12px; }
+  .sm-tools > span { font-size: .92rem; font-weight: 700; color: var(--ink-2); }
+  .sm-toggles { display: flex; gap: 8px; }
+  .sm-notif { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+  .sm-notif summary { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 10px 12px; list-style: none; font-weight: 600; color: var(--ink-2); cursor: pointer; border-radius: 14px; }
+  .sm-notif summary::-webkit-details-marker { display: none; }
+  .sm-notif summary svg { width: 20px; height: 20px; flex-shrink: 0; }
+  .sm-notif[open] summary { border-block-end: 1px solid var(--line); border-end-start-radius: 0; border-end-end-radius: 0; }
+  .sm-new { margin-inline-start: auto; padding: 2px 8px; border-radius: 99px; background: var(--brand-soft); color: var(--brand-soft-ink); font-size: .72rem; font-weight: 800; }
+  .sm-notif-list { display: grid; gap: 4px; padding: 8px; }
+  .sm-notif .link-btn { margin: 0 12px 10px; }
+}
+
+/* ---------- Login Portal: tools only in the top bar, two-column contact row ---------- */
+.auth-top.auth-top-end { justify-content: flex-end; }
+.reg-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.auth-form .check { align-items: flex-start; }
+.auth-form .check input { flex-shrink: 0; margin: 3px 0 0; }
+.field.invalid .check { color: var(--coral); }
+#register-success:focus { outline: none; box-shadow: none; }
+@media (max-width: 520px) { .reg-row { grid-template-columns: 1fr; } }
+.sm-new, .sm-who strong, .sm-who > div > span { unicode-bidi: plaintext; }

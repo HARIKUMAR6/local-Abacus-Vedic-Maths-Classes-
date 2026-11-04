@@ -3,6 +3,20 @@
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar" aria-label="Dashboard navigation">
     <a class="brand" href="index.html" aria-label="SutraBead Academy website">{{LOGO}}<span class="brand-text"><span class="brand-name">SutraBead</span><span class="brand-tag">Parent account</span></span></a>
+    <!-- Header controls inside the mobile menu (shown at phone widths only) -->
+    <div class="side-mobile" role="group" aria-label="Account and display">
+      <div class="sm-who"><span class="initials" id="side-initials">MI</span><div><strong id="side-name">Meera Iyer</strong><span id="side-email">meera.iyer@outlook.in</span></div></div>
+      <div class="sm-tools"><span>Display</span><div class="sm-toggles">{{TOGGLES}}</div></div>
+      <details class="sm-notif">
+        <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg><span>Notifications</span><span class="sm-new" id="side-notif-new">2 new</span></summary>
+        <div class="sm-notif-list" id="side-notif-list"></div>
+        <button class="link-btn" type="button" data-mark-read>Mark all read</button>
+      </details>
+      <ul class="side-nav">
+        <li><a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Academy website</a></li>
+        <li><button class="side-signout" type="button" data-signout><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l-5-5 5-5M5 12h11"/></svg>Sign out</button></li>
+      </ul>
+    </div>
     <div>
       <div class="side-label">Family</div>
       <ul class="side-nav">
@@ -16,7 +30,7 @@
     <div>
       <div class="side-label">Account</div>
       <ul class="side-nav">
-        <li><a href="#fees" data-view="fees"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="6" width="20" height="13" rx="3"/><path d="M2 10h20M6 15h4"/></svg>Fee Payments<span class="count" id="due-count">2</span></a></li>
+        <li><a href="#fees" data-view="fees"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="6" width="20" height="13" rx="3"/><path d="M2 10h20M6 15h4"/></svg>Fee Payments</a></li>
         <li><a href="#payments" data-view="payments"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>Payment History</a></li>
         <li><a href="#profile" data-view="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Profile Settings</a></li>
       </ul>
@@ -53,7 +67,7 @@
             <a href="#profile" data-view="profile" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Profile settings</a>
             <a href="#payments" data-view="payments" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/></svg>Receipts</a>
             <a href="index.html" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Academy website</a>
-            <button class="menu-item danger" type="button" role="menuitem" data-open="signout-modal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l-5-5 5-5M5 12h11"/></svg>Sign out</button>
+            <button class="menu-item danger" type="button" role="menuitem" data-signout><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l-5-5 5-5M5 12h11"/></svg>Sign out</button>
           </div>
         </div>
       </div>
@@ -474,10 +488,3 @@
   </div>
 </div>
 
-<div class="modal" id="signout-modal" aria-hidden="true">
-  <div class="modal-backdrop" data-close></div>
-  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="so-title" tabindex="-1" style="width:min(420px,100%)">
-    <div class="modal-head"><div><h2 id="so-title">Sign out?</h2><p>You’ll need to sign in again to view your account.</p></div></div>
-    <div class="modal-foot" style="margin-block-start:20px"><button class="btn btn-outline" type="button" data-close>Stay signed in</button><button class="btn btn-primary" type="button" id="signout-btn">Sign out</button></div>
-  </div>
-</div>

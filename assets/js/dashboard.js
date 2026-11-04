@@ -137,7 +137,11 @@
     else if (e.target.closest("a, .menu-item")) closeMenus();
   });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeMenus(); });
-  $("#mark-read").addEventListener("click", function () { $$(".notif.unread").forEach(function (n) { n.classList.remove("unread"); }); $("#notif-dot").hidden = true; SB.toast("All notifications marked as read."); });
+  // Mobile menu shows the same notifications as the header bell (copied at load, not duplicated in markup)
+  $$("#notif-menu .notif").forEach(function (n) { $("#side-notif-list").appendChild(n.cloneNode(true)); });
+  $$("#mark-read, [data-mark-read]").forEach(function (b) {
+    b.addEventListener("click", function () { $$(".notif.unread").forEach(function (n) { n.classList.remove("unread"); }); $("#notif-dot").hidden = true; $("#side-notif-new").hidden = true; SB.toast("All notifications marked as read."); });
+  });
 
   function setSeg(sel, val) { $$(sel + " button").forEach(function (b) { b.setAttribute("aria-pressed", (b.getAttribute("data-child") || b.getAttribute("data-range") || b.getAttribute("data-prog-filter")) === val ? "true" : "false"); }); }
 
@@ -146,6 +150,7 @@
     var p = state.profile, full = p.first + " " + p.last;
     $("#top-name").textContent = full; $("#menu-name").textContent = full; $("#menu-email").textContent = p.email;
     $("#top-initials").textContent = initials(full);
+    $("#side-name").textContent = full; $("#side-email").textContent = p.email; $("#side-initials").textContent = initials(full);
     $$("[data-parent-first]").forEach(function (x) { x.textContent = p.first; });
     $$("[data-parent-name]").forEach(function (x) { x.textContent = full; });
   }
@@ -425,7 +430,6 @@
     $("#kpi-due").textContent = inr(total);
     var next = state.dues.slice().sort(function (a, b) { return a.due.localeCompare(b.due); })[0];
     $("#kpi-due-sub").textContent = next ? "Next due " + fmtDate(next.due).slice(0, -5) : "All paid up";
-    var cnt = $("#due-count"); cnt.textContent = state.dues.length; cnt.hidden = !state.dues.length;
     var diyaDue = state.dues.some(function (d) { return d.id === "d1"; }), chip = $("#diya-fee-chip");
     chip.className = "chip " + (diyaDue ? "warn" : "ok"); chip.textContent = diyaDue ? "Due 10 Nov" : "Paid";
     $("#pay-bar").hidden = !state.dues.length;
@@ -578,8 +582,11 @@
   });
 
   /* ---------- Sign out ---------- */
-  $("#signout-btn").addEventListener("click", function () {
-    try { localStorage.removeItem(SESSION_KEY); sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
+  // Signs out straight to the Login Portal — no confirmation popup.
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest("[data-signout]")) return;
+    e.preventDefault();
+    try { localStorage.removeItem(SESSION_KEY); sessionStorage.removeItem(SESSION_KEY); } catch (err) {}
     window.location.href = "login.html";
   });
 

@@ -28,23 +28,22 @@
   </aside>
 
   <main class="auth-main" id="main">
-    <div class="auth-top">
-      <a class="back" href="index.html"><svg class="flip-rtl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Back to website</a>
+    <div class="auth-top auth-top-end">
       <div class="tools"><button class="icon-btn" type="button" data-dir-toggle aria-label="Switch to right-to-left layout"><span class="dir-label">RTL</span></button>
       <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch theme"><svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg><svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg></button></div>
     </div>
 
     <div class="auth-card">
       <span class="eyebrow">Parent account</span>
-      <h1>Welcome back</h1>
-      <p>Sign in to see your child’s progress, classes and fees.</p>
+      <h1 id="auth-title">Welcome back</h1>
+      <p id="auth-sub">Sign in to see your child’s progress, classes and fees.</p>
 
-      <div class="tabs" role="tablist" aria-label="Sign-in method">
-        <button class="tab" role="tab" id="t-pass" aria-controls="p-pass" aria-selected="true">Email &amp; password</button>
-        <button class="tab" role="tab" id="t-otp" aria-controls="p-otp" aria-selected="false" tabindex="-1">Mobile OTP</button>
+      <div class="tabs" role="tablist" aria-label="Parent account">
+        <button class="tab" role="tab" id="t-signin" aria-controls="signin" aria-selected="true">Sign in</button>
+        <button class="tab" role="tab" id="t-register" aria-controls="register" aria-selected="false" tabindex="-1">Create account</button>
       </div>
 
-      <div class="tab-panel" id="p-pass" role="tabpanel" aria-labelledby="t-pass">
+      <div class="tab-panel" id="signin" role="tabpanel" aria-labelledby="t-signin">
         <form class="auth-form" id="login-form" novalidate>
           <div class="field"><label for="l-email">Registered email</label><input class="input" id="l-email" type="email" data-rule="required email" placeholder="you@example.com" autocomplete="username"><span class="err">Enter the email linked to your account.</span></div>
           <div class="field">
@@ -58,21 +57,34 @@
         </form>
       </div>
 
-      <div class="tab-panel" id="p-otp" role="tabpanel" aria-labelledby="t-otp" hidden>
-        <form class="auth-form" id="otp-form" novalidate>
-          <div class="field"><label for="o-phone">Registered mobile number</label><input class="input" id="o-phone" type="tel" data-rule="required phone" placeholder="+91 98400 12345" autocomplete="tel"><span class="err">Enter a valid 10-digit mobile number.</span></div>
-          <div id="otp-step" hidden>
-            <p class="otp-sent" id="otp-msg" role="status"></p>
-            <div class="field"><label for="o-code">6-digit OTP</label><input class="input" id="o-code" inputmode="numeric" maxlength="6" placeholder="• • • • • •" autocomplete="one-time-code" style="letter-spacing:.5em;font-weight:800;text-align:center"><span class="err">Enter the 6-digit code.</span></div>
-            <div class="row-between"><span class="pw-hint" id="otp-timer"></span><button class="link-btn" type="button" id="otp-resend" disabled>Resend OTP</button></div>
+      <div class="tab-panel" id="register" role="tabpanel" aria-labelledby="t-register" hidden>
+        <form class="auth-form" id="register-form" novalidate>
+          <div class="field"><label for="r-name">Parent’s full name</label><input class="input" id="r-name" autocomplete="name" placeholder="e.g. Meera Iyer"><span class="err">Please enter your full name.</span></div>
+          <div class="reg-row">
+            <div class="field"><label for="r-email">Email</label><input class="input" id="r-email" type="email" autocomplete="email" placeholder="you@example.com"><span class="err">Enter a valid email address.</span></div>
+            <div class="field"><label for="r-phone">Mobile number</label><input class="input" id="r-phone" type="tel" autocomplete="tel" placeholder="+91 98400 12345"><span class="err">Enter a valid 10-digit mobile number.</span></div>
           </div>
-          <button class="btn btn-primary btn-block" type="submit" id="otp-submit">Send OTP</button>
+          <div class="field">
+            <label for="r-pass">Create password</label>
+            <div class="pw-wrap"><input class="input" id="r-pass" type="password" autocomplete="new-password" placeholder="At least 8 characters" aria-describedby="r-pass-hint">
+              <button class="pw-toggle" type="button" data-pw-toggle="r-pass" aria-label="Show password"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+            <span class="pw-hint" id="r-pass-hint">Use 8 or more characters, including a number.</span>
+            <span class="err">Use at least 8 characters, including a number.</span>
+          </div>
+          <div class="field"><label for="r-pass2">Confirm password</label><input class="input" id="r-pass2" type="password" autocomplete="new-password"><span class="err">Passwords don’t match.</span></div>
+          <div class="field"><label class="check" for="r-terms"><input type="checkbox" id="r-terms"> I agree to the academy’s terms of use and privacy policy.</label><span class="err">Please accept the terms to continue.</span></div>
+          <button class="btn btn-primary btn-block" type="submit">Create account</button>
         </form>
+        <div class="form-success" id="register-success" tabindex="-1">
+          <div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
+          <h3 class="center">Account created</h3>
+          <p id="register-msg">Your parent account is ready.</p>
+          <button class="btn btn-primary" type="button" data-go-signin>Sign in now</button>
+        </div>
       </div>
 
       <p class="secure-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Your account is protected with encrypted sign-in</p>
 
-      <div class="auth-alt">New to SutraBead? <button class="link-btn" type="button" data-open="assess-modal">Book a free assessment</button> — your parent account is created on enrolment.</div>
     </div>
 
     <div class="auth-foot"><span>Need help? <a href="contact.html#enquiry">Send us a message</a></span><span><a href="contact.html">Contact support</a></span></div>

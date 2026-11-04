@@ -604,3 +604,26 @@ a[href^="tel:"], a[href^="mailto:"] { direction: ltr; unicode-bidi: isolate; }
 [dir="rtl"] :is(h1, h2, h3, h4, h5, h6, p, li, blockquote, label, legend, figcaption, dt, dd, .lead, .eyebrow) { unicode-bidi: plaintext; }
 :where([dir="rtl"]) :where(p, li, blockquote, figcaption, legend, label) { text-align: right; }
 :where([dir="rtl"]) :where(.center, .text-center, .form-success, .cta-photo .btns) :where(p, li, blockquote, figcaption, legend, label) { text-align: center; }
+
+/* ---------- Link system (all pages) ----------
+   1. Inline text links in running copy: brand colour, soft underline that firms up on hover.
+   2. Navigation-type links (header, footer, crumbs, jump bars, sidebars, menus) keep their own styles.
+   3. Every link gets a visible keyboard focus ring; dark surfaces use a gold ring. */
+:where(p, li, dd, td, label, blockquote, figcaption, .lead) a:not([class]):not(:where(nav, footer, .side-nav, .quick, .menu) a) {
+  color: var(--brand); font-weight: 600;
+  text-decoration-line: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  border-radius: 4px; transition: color .15s, text-decoration-color .15s;
+}
+:where(p, li, dd, td, label, blockquote, figcaption, .lead) a:not([class]):not(:where(nav, footer, .side-nav, .quick, .menu) a):hover { color: var(--brand-hover); text-decoration-color: currentColor; }
+:where(p, li, dd, td, label, blockquote, figcaption, .lead) a:not([class]):not(:where(nav, footer, .side-nav, .quick, .menu) a):active { color: var(--ink); }
+.crumbs a { border-radius: 4px; text-underline-offset: 3px; }
+.crumbs a:hover { color: var(--brand); text-decoration: underline; }
+.crumbs a:active { color: var(--ink); }
+.crumbs [aria-current="page"] { color: var(--ink-2); }
+.link-btn { text-underline-offset: 3px; border-radius: 4px; }
+.link-btn:active { color: var(--ink); }
+.side-help a { text-decoration: underline; text-decoration-color: rgba(255, 210, 122, .45); text-underline-offset: 3px; border-radius: 4px; }
+.side-help a:hover { color: #fff; text-decoration-color: currentColor; }
+.btn:focus-visible, .icon-btn:focus-visible { box-shadow: var(--focus); }
+:is(.sb-footer, .band, .pg-vedic, .cp-arena, .side-help, .auth-visual, .cta-photo) :focus-visible { box-shadow: 0 0 0 3px #ffd27a; }

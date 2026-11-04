@@ -687,3 +687,60 @@ a.pg-option[href^="tel:"] { direction: inherit; unicode-bidi: normal; }
 /* RTL: English text blocks in the Contact/About components keep punctuation in place */
 [dir="rtl"] :is(.ct-bubble, .ct-channel dd > span, .ct-channel dd > strong, .ct-action strong, .ct-action small, .ab-intro-card span, .ab-approach li) { unicode-bidi: plaintext; }
 :where([dir="rtl"]) :where(.ct-bubble, .ct-channel dd > span, .ct-channel dd > strong, .ct-action strong, .ct-action small) { text-align: right; }
+
+/* =====================================================================
+   SHARED HERO HEIGHT SYSTEM — every public page's opening band uses .page-hero.
+   Desktop: one fixed height for all pages; media columns are sized from it so content
+   always fits. Tablet/mobile (stacked): each hero fills at least one screen below the
+   header and shares one media height, so pages feel the same without forcing one layout.
+   ===================================================================== */
+:root {
+  --hero-h: clamp(620px, calc(100svh - 76px), 720px);
+  --hero-pad-top: clamp(24px, 3vw, 40px);
+  --hero-pad-bottom: clamp(32px, 4vw, 56px);
+  --hero-media-h: calc(var(--hero-h) - var(--hero-pad-top) - var(--hero-pad-bottom) - 40px);
+  --hero-h-sm: clamp(560px, calc(100svh - 76px), 780px);
+  --hero-media-sm: 280px;
+}
+.page-hero { box-sizing: border-box; min-height: var(--hero-h); display: flex; flex-direction: column; justify-content: center; padding-block: var(--hero-pad-top) var(--hero-pad-bottom); }
+.page-hero > .container { width: 100%; }
+
+/* Media columns sized from the shared token (desktop) */
+.page-hero .hero-visual { min-height: var(--hero-media-h); }
+.page-hero .pg-hero-main { aspect-ratio: auto; height: calc(var(--hero-media-h) - 44px); }
+.page-hero .ab-intro-photo { aspect-ratio: auto; height: calc(var(--hero-media-h) - 28px); }
+.page-hero .ct-hero-visual { padding-block: 24px; }
+.page-hero .ct-hero-photo { aspect-ratio: auto; height: calc(var(--hero-media-h) - 48px); }
+.page-hero .cp-poster { aspect-ratio: auto; height: var(--hero-media-h); }
+/* Competitions hero: slightly tighter type so the featured event fits the shared height */
+.page-hero.cp-arena h1 { font-size: clamp(2.3rem, 4.4vw, 3.5rem); margin-block-end: .35em; }
+.page-hero .cp-feature { margin-block-start: 18px; }
+.page-hero .cp-arena .cp-lead, .page-hero.cp-arena .cp-lead { margin-block-end: 0; }
+.cp-more { padding-block: 0 clamp(56px, 7vw, 88px); }
+.cp-more .cp-sub { margin-block-start: 8px; }
+/* Programs: jump bar now sits directly under the hero */
+.pg-jump-wrap { padding-block-end: clamp(28px, 4vw, 44px); }
+.pg-jump-wrap .pg-jump { margin-block-start: 0; }
+/* Home 2: finder card follows the hero as its own block */
+.h2-finder { padding-block: 0 clamp(56px, 7vw, 88px); }
+
+@media (max-width: 900px) {
+  .page-hero { min-height: var(--hero-h-sm); }
+  .page-hero .hero-visual { min-height: calc(var(--hero-media-sm) + 200px); }
+  .page-hero .pg-hero-main, .page-hero .ab-intro-photo, .page-hero .cp-poster { height: var(--hero-media-sm); }
+  .page-hero .ct-hero-photo { height: calc(var(--hero-media-sm) - 20px); }
+}
+@media (max-width: 480px) {
+  :root { --hero-media-sm: 240px; }
+  .page-hero .hero-visual { min-height: calc(var(--hero-media-sm) + 210px); }
+}
+
+/* Footer links: underline cue on hover, clear active state */
+.sb-footer ul a:hover { text-decoration-line: underline; text-decoration-color: #ffd27a; text-underline-offset: 4px; }
+.sb-footer a:active { color: #fff; }
+.sb-social a:hover { text-decoration: none; }
+/* Hero fine-tuning so every desktop hero lands exactly on --hero-h */
+.page-hero.cp-arena .cp-meta { margin-block-end: 14px; }
+.page-hero.cp-arena .cp-count { margin-block-end: 16px; }
+.page-hero .pg-gains { margin-block-start: 18px; }
+.cp-more { background: var(--band); }
