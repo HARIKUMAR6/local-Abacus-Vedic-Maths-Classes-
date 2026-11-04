@@ -1,12 +1,12 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>Overflow sweep</title></head><body><pre id="out"></pre><script>
 var R = location.href.replace(/\/tests\/[^/]*$/, ''), out = document.getElementById('out'), bad = 0;
-var pages = ['index.html', 'home-2.html', 'programs.html', 'competitions.html', 'about.html', 'contact.html'], widths = [360, 390, 768, 820, 1024, 1280, 1440], dirs = ['ltr', 'rtl'], jobs = [];
+var pages = ['index.html', 'home-2.html', 'programs.html', 'competitions.html', 'about.html', 'contact.html', 'login.html', 'dashboard.html', 'dashboard.html#payments', 'dashboard.html#progress', 'dashboard.html#schedule'], widths = [320, 360, 375, 390, 430, 768, 820, 1024, 1280, 1366, 1440, 1600, 1920], dirs = ['ltr', 'rtl'], jobs = [];
 pages.forEach(function (p) { widths.forEach(function (w) { dirs.forEach(function (d) { jobs.push([p, w, d]); }); }); });
 function next() {
   var j = jobs.shift(); if (!j) { out.textContent += '\nOVERFLOWS: ' + bad + '\nDONE'; localStorage.clear(); return; }
   localStorage.setItem('sb-dir', j[2]);
   var f = document.createElement('iframe'); f.style.cssText = 'width:' + j[1] + 'px;height:700px;border:0'; document.body.appendChild(f);
-  f.onload = function () { setTimeout(function () { var de = f.contentDocument.documentElement, o = de.scrollWidth - de.clientWidth; if (o > 0) bad++; out.textContent += (o > 0 ? 'OVERFLOW +' + o + 'px ' : 'ok ') + j.join(' ') + '\n'; f.remove(); next(); }, 500); };
+  var fired = false; var go = function () { if (fired) return; fired = true; setTimeout(function () { var de = f.contentDocument.documentElement, o = de.scrollWidth - de.clientWidth; if (o > 0) bad++; out.textContent += (o > 0 ? 'OVERFLOW +' + o + 'px ' : 'ok ') + j.join(' ') + '\n'; f.remove(); next(); }, 500); }; f.onload = go; setTimeout(go, 6000);
   f.src = R + '/' + j[0];
 }
 next();

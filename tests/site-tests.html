@@ -3,7 +3,9 @@ var R = location.href.replace(/\/tests\/[^/]*$/, ''), out = document.getElementB
 function log(ok, m) { ok ? pass++ : fail++; out.textContent += (ok ? 'PASS ' : 'FAIL ') + m + '\n'; }
 function load(page, w, cb, h) {
   var f = document.createElement('iframe'), done = false; f.style.cssText = 'width:' + w + 'px;height:' + (h || 900) + 'px;border:0'; document.body.appendChild(f);
-  f.onload = function () { if (done) return; done = true; setTimeout(function () { cb(f.contentWindow, f.contentDocument, f); }, 600); };
+  // Pages with third-party embeds (e.g. the Contact map) may never fire load in headless runs — fall back after 6 s.
+  var fire = function () { if (done) return; done = true; setTimeout(function () { cb(f.contentWindow, f.contentDocument, f); }, 600); };
+  f.onload = fire; setTimeout(function () { if (f.contentDocument && f.contentDocument.readyState !== 'loading') fire(); else setTimeout(fire, 3000); }, 6000);
   f.src = R + '/' + page; return f;
 }
 function fetchText(u, cb) { var x = new XMLHttpRequest(); x.open('GET', u); x.onload = function () { cb(x.status === 0 || x.status === 200, x.responseText); }; x.onerror = function () { cb(false, ''); }; x.send(); }
@@ -177,8 +179,9 @@ var steps = [
       log(/login\.html/.test(w.location.href) && !!d.getElementById('login-form'), 'Login Portal stays on its own page even with an active session');
       d.querySelector('[data-open="forgot-modal"]').click(); log(d.getElementById('forgot-modal').classList.contains('open'), 'Forgot-password modal opens');
       d.querySelector('#forgot-modal [data-close]').click();
-      d.getElementById('t-otp').click(); log(!d.getElementById('p-otp').hidden, 'OTP tab switches');
-      d.getElementById('t-pass').click();
+      d.getElementById('t-register').click(); log(!d.getElementById('register').hidden && d.getElementById('signin').hidden, 'Create-account tab switches');
+      d.getElementById('register-form').querySelector('[type=submit]').click(); log(!!d.querySelector('#register-form .field.invalid'), 'Create-account form validates empty fields');
+      d.getElementById('t-signin').click(); log(!d.getElementById('signin').hidden, 'Sign-in tab switches back');
       d.querySelector('#login-form [type=submit]').click(); log(!!d.querySelector('#login-form .field.invalid'), 'Sign-in validates empty fields');
       localStorage.clear();
       d.getElementById('l-email').value = 'meera.iyer@outlook.in'; d.getElementById('l-pass').value = 'bead2026'; d.querySelector('#login-form [type=submit]').click();

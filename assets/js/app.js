@@ -173,11 +173,98 @@
     });
   }
 
+  /* ---------- Scroll to top (shared by all pages; styles in styles.css) ---------- */
+  function initScrollTop() {
+    if (document.querySelector(".to-top")) return;
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "to-top";
+    btn.setAttribute("aria-label", "Scroll to top");
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+    document.body.appendChild(btn);
+
+    var SHOW_AFTER = 300;
+    // While scrolling: stay clear of bottom-anchored controls (footer links, login help, pay bar).
+    // Once scrolling settles: also step clear of any control or heading underneath (no jumping mid-scroll).
+    var AVOID = ".sb-footer a, .sb-footer button, .auth-foot a, .pay-bar";
+    var ANY = 'a[href], button:not(.to-top), input, select, textarea, iframe, summary, [tabindex]:not([tabindex="-1"]), h1, h2, h3';
+    var reduce = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
+    var ticking = false, settleTimer = null, lateTimer = null;
+
+    // The part of an element actually on screen (scroll containers such as card carousels clip their children)
+    function visibleRect(el) {
+      var r = el.getBoundingClientRect();
+      if (!r.width || !r.height) return null;
+      var x1 = r.left, y1 = r.top, x2 = r.right, y2 = r.bottom, p = el.parentElement;
+      while (p && p !== document.body) {
+        var s = getComputedStyle(p);
+        if (s.overflowX !== "visible" || s.overflowY !== "visible") {
+          var q = p.getBoundingClientRect();
+          x1 = Math.max(x1, q.left); y1 = Math.max(y1, q.top); x2 = Math.min(x2, q.right); y2 = Math.min(y2, q.bottom);
+          if (x2 <= x1 || y2 <= y1) return null;
+        }
+        p = p.parentElement;
+      }
+      return { left: x1, top: y1, right: x2, bottom: y2 };
+    }
+
+    function update(settled) {
+      ticking = false;
+      var y = window.scrollY || document.documentElement.scrollTop;
+      var show = y > SHOW_AFTER;
+      btn.classList.toggle("is-visible", show);
+      if (!show) { btn.style.setProperty("--to-top-lift", "0px"); return; }
+      var vh = window.innerHeight, size = btn.offsetHeight;
+      var gap = parseFloat(getComputedStyle(btn).getPropertyValue("--to-top-gap")) || 20;
+      var bx = btn.getBoundingClientRect();
+      var atEnd = y + vh >= document.documentElement.scrollHeight - 120;
+      var rects = [];
+      document.querySelectorAll(settled === true || atEnd ? AVOID + ", " + ANY : AVOID).forEach(function (el) {
+        if (el === btn || el.closest(".to-top, .modal, .cp-lightbox, [hidden]")) return;
+        var r = visibleRect(el);
+        if (r && r.right > bx.left - 8 && r.left < bx.right + 8 && r.bottom > 0 && r.top < vh) rects.push(r);
+      });
+      // Raise the button just above whatever it would cover (repeat in case that lands on another control)
+      var lift = 0, changed = true, n = 0;
+      while (changed && n++ < 8) {
+        changed = false;
+        var bottom = vh - gap - lift, top = bottom - size;
+        rects.forEach(function (r) {
+          if (r.bottom > top - 8 && r.top < bottom + 8) { var need = vh - gap - r.top + 12; if (need > lift) { lift = need; changed = true; } }
+        });
+      }
+      lift = Math.min(lift, vh * 0.45); // never float far up the screen
+      btn.style.setProperty("--to-top-lift", Math.max(0, Math.round(lift)) + "px");
+    }
+    // Re-check once scrolling stops, and again after scroll-in animations (.reveal, 0.7s) finish moving content
+    function settle() {
+      clearTimeout(settleTimer); clearTimeout(lateTimer);
+      settleTimer = setTimeout(function () { update(true); }, 160);
+      lateTimer = setTimeout(function () { update(true); }, 900);
+    }
+    function request() { if (!ticking) { ticking = true; window.requestAnimationFrame(update); } settle(); }
+    window.addEventListener("scroll", request, { passive: true });
+    window.addEventListener("resize", request);
+    document.addEventListener("click", function (e) { if (!e.target.closest(".to-top")) setTimeout(request, 350); });
+    update(true);
+
+    btn.addEventListener("click", function (e) {
+      var instant = reduce && reduce.matches;
+      try { window.scrollTo({ top: 0, behavior: instant ? "instant" : "smooth" }); } catch (err) { window.scrollTo(0, 0); }
+      // Keyboard users land at the top of the page, not on a button that is about to disappear
+      if (e.detail === 0) {
+        var target = document.querySelector('#main[tabindex="-1"]') || document.querySelector("[data-header] .brand, .auth-visual .brand, .brand");
+        if (target) target.focus({ preventScroll: true });
+      }
+    });
+  }
+
   /* ---------- DOM ready ---------- */
   document.addEventListener("DOMContentLoaded", function () {
     applyTheme(currentTheme());
     applyDir(root.getAttribute("dir") || "ltr");
     injectAssessment();
+    initScrollTop();
 
     // Year
     document.querySelectorAll("[data-year]").forEach(function (y) { y.textContent = new Date().getFullYear(); });

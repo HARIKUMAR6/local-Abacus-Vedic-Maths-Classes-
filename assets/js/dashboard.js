@@ -312,7 +312,7 @@
     var p = PROGRESS[progChild];
     $("#pr-track-title").textContent = KIDS[progChild].name + " · " + p.track;
     $("#pr-level-chip").textContent = p.levelName;
-    var tr = $("#pr-track"); tr.style.gridTemplateColumns = "repeat(" + p.labels.length + ", 1fr)";
+    var tr = $("#pr-track"); tr.style.gridTemplateColumns = "repeat(" + p.labels.length + ", minmax(0, 1fr))";
     tr.innerHTML = p.labels.map(function (l, i) { var c = i < p.now ? "done" : i === p.now ? "now" : ""; return '<span class="lv ' + c + '" title="' + (l === "J" ? "Junior" : "Level " + l) + (c === "done" ? " · completed" : c === "now" ? " · in progress" : "") + '">' + l + "</span>"; }).join("");
     $("#pr-syl-label").textContent = p.levelName + " syllabus covered";
     $("#pr-syl-val").textContent = p.syllabus + "%";
