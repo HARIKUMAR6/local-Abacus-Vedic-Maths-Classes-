@@ -235,6 +235,11 @@
       }
       lift = Math.min(lift, vh * 0.45); // never float far up the screen
       btn.style.setProperty("--to-top-lift", Math.max(0, Math.round(lift)) + "px");
+      // Dense stacks of full-width controls (FAQ rows, form fields) leave no free spot: at rest, fade out
+      // rather than cover a control. Scrolling again brings the button straight back.
+      var fb = vh - gap - lift, ft = fb - size, blocked = false;
+      rects.forEach(function (r) { if (r.bottom > ft + 1 && r.top < fb - 1) blocked = true; });
+      btn.classList.toggle("is-tucked", settled === true && blocked);
     }
     // Re-check once scrolling stops, and again after scroll-in animations (.reveal, 0.7s) finish moving content
     function settle() {
@@ -306,6 +311,12 @@
       var mt = header.querySelector("[data-mobile-toggle]"), panel = document.getElementById("mobile-nav");
       var setMobile = function (o) {
         if (!mt || !panel) return;
+        // Sub-menus (Home) always start collapsed each time the menu opens; they expand only on an explicit tap.
+        if (o) panel.querySelectorAll("[data-m-group]").forEach(function (g) {
+          var sub = document.getElementById(g.getAttribute("aria-controls"));
+          if (sub) sub.hidden = true;
+          g.setAttribute("aria-expanded", "false");
+        });
         panel.hidden = !o;
         mt.setAttribute("aria-expanded", o ? "true" : "false");
         mt.setAttribute("aria-label", o ? "Close menu" : "Open menu");

@@ -689,3 +689,5 @@ p, li, dd, figcaption { text-wrap: pretty; }
 
 /* QA: RTL — numbers keep LTR digit order but align with their labels on the RTL side */
 :where([dir="rtl"]) :where(.hero-proof strong, .counter strong, .mini-stats strong, .k-val, .kpi .k-sub, .soroban-value, .cp-tally b, .cp-tally span) { text-align: right; }
+/* Scroll to top: fades out at rest only where it would otherwise cover a control (set by app.js) */
+.to-top.is-visible.is-tucked { opacity: 0; visibility: hidden; }

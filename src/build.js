@@ -80,7 +80,7 @@ function header(active) {
     </nav>
     <div class="ms-auto flex items-center gap-2 xl:ms-3">
       ${toggles}
-      <a class="btn btn-primary btn-sm hidden sm:inline-flex" href="login.html">${I.user}<span>Login Portal</span></a>
+      <a class="btn btn-primary btn-sm hidden xl:inline-flex" href="login.html">${I.user}<span>Login Portal</span></a>
       <button class="icon-btn xl:hidden" type="button" data-mobile-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">${I.menu}</button>
     </div>
   </div>
@@ -88,8 +88,8 @@ function header(active) {
     <nav class="container py-3" aria-label="Mobile">
       <ul class="m-0 grid list-none gap-1 p-0">
         <li>
-          <button class="sb-m-link${isHome ? " is-active" : ""}" type="button" aria-expanded="${isHome ? "true" : "false"}" aria-controls="m-home" data-m-group>Home${I.chev}</button>
-          <ul class="m-0 grid list-none gap-1 p-0" id="m-home"${isHome ? "" : " hidden"}>${mHome}</ul>
+          <button class="sb-m-link${isHome ? " is-active" : ""}" type="button" aria-expanded="false" aria-controls="m-home" data-m-group>Home${I.chev}</button>
+          <ul class="m-0 grid list-none gap-1 p-0" id="m-home" hidden>${mHome}</ul>
         </li>
         ${mLinks}
       </ul>
