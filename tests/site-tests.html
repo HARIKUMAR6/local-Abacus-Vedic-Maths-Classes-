@@ -1,0 +1,334 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Site checks</title></head><body><pre id="out"></pre><script>
+var R = location.href.replace(/\/tests\/[^/]*$/, ''), out = document.getElementById('out'), pass = 0, fail = 0;
+function log(ok, m) { ok ? pass++ : fail++; out.textContent += (ok ? 'PASS ' : 'FAIL ') + m + '\n'; }
+function load(page, w, cb, h) {
+  var f = document.createElement('iframe'), done = false; f.style.cssText = 'width:' + w + 'px;height:' + (h || 900) + 'px;border:0'; document.body.appendChild(f);
+  f.onload = function () { if (done) return; done = true; setTimeout(function () { cb(f.contentWindow, f.contentDocument, f); }, 600); };
+  f.src = R + '/' + page; return f;
+}
+function fetchText(u, cb) { var x = new XMLHttpRequest(); x.open('GET', u); x.onload = function () { cb(x.status === 0 || x.status === 200, x.responseText); }; x.onerror = function () { cb(false, ''); }; x.send(); }
+function wait(fn, ms) { setTimeout(fn, ms); }
+function rightHeadings(w, d) { return [].filter.call(d.querySelectorAll('h1,h2,h3,h4,h5,h6'), function (h) { var a = w.getComputedStyle(h).textAlign; return a === 'right' || a === 'end'; }).length; }
+function overflow(d) { return d.documentElement.scrollWidth - d.documentElement.clientWidth; }
+
+// Resolves a link: file must exist; #anchor must be an element id — or, for the dashboard's hash router, a view id (view-<hash>).
+function checkLinks(d, self, label, n) {
+  var hrefs = {}; d.querySelectorAll('a[href]').forEach(function (a) { var h = a.getAttribute('href'); if (/^(https?:|tel:|mailto:)/.test(h)) return; hrefs[h] = 1; });
+  var list = Object.keys(hrefs), pend = list.length, bad = [];
+  list.forEach(function (h) {
+    var parts = h.split('#'), file = parts[0] || self, anc = parts[1];
+    fetchText(R + '/' + file, function (ok, txt) {
+      if (!ok) bad.push(h);
+      else if (anc) {
+        var target = file === 'dashboard.html' ? 'id="view-' + anc + '"' : 'id="' + anc + '"';
+        if (txt.indexOf(target) < 0) bad.push(h + ' (no ' + target + ')');
+      }
+      if (--pend === 0) { log(bad.length === 0, label + ': ' + list.length + ' internal links resolve' + (bad.length ? ' — BAD: ' + bad.join(', ') : '')); n(); }
+    });
+  });
+}
+
+var steps = [
+  // ---------- Header (desktop) ----------
+  function (n) {
+    localStorage.clear(); sessionStorage.clear(); localStorage.setItem('sb-theme', 'light');
+    load('index.html', 1440, function (w, d) {
+      var dd = d.querySelector('[data-dropdown]'), b = dd.querySelector('[data-dropdown-btn]'), m = dd.querySelector('.sb-dropdown');
+      log(m.hidden, 'Home dropdown closed by default');
+      b.click(); log(!m.hidden && b.getAttribute('aria-expanded') === 'true', 'Home dropdown opens on click');
+      var lis = m.children, structOk = lis.length === 2;
+      [].forEach.call(lis, function (li) { if (li.tagName !== 'LI' || li.children.length !== 1 || li.children[0].tagName !== 'A' || li.children[0].children.length !== 0) structOk = false; });
+      log(structOk, 'Dropdown structure: exactly 2 items, each one plain link (no subtitle elements)');
+      var items = [].map.call(m.querySelectorAll('a'), function (a) { return a.textContent.trim() + '→' + a.getAttribute('href'); });
+      log(items.join(' | ') === 'Home 1→index.html | Home 2→home-2.html', 'Dropdown items: ' + items.join(' | '));
+      d.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Escape' }));
+      d.body.click(); log(m.hidden, 'Dropdown closes on outside click');
+      b.focus(); dd.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+      log(!m.hidden && d.activeElement === m.querySelector('a'), 'Dropdown keyboard: ArrowDown opens and focuses Home 1');
+      dd.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); log(m.hidden, 'Dropdown keyboard: Escape closes');
+      var nav = [].map.call(d.querySelectorAll('nav[aria-label=Main] > ul > li > a'), function (a) { return a.textContent.trim() + '→' + a.getAttribute('href'); });
+      log(nav.join(', ') === 'Programs→programs.html, Competitions→competitions.html, About→about.html, Contact→contact.html, Dashboard→dashboard.html', 'Main nav: ' + nav.join(', '));
+      log(!!d.querySelector('header a[href="login.html"]'), 'Header has Login Portal link');
+      var hdr = d.querySelector('[data-header]'), cs = w.getComputedStyle(hdr);
+      log(cs.position === 'sticky' && cs.top === '0px' && +cs.zIndex >= 50, 'Header sticky (top 0, z-index ' + cs.zIndex + ')');
+      w.scrollTo({ top: 1200, behavior: "instant" }); w.dispatchEvent(new Event("scroll")); wait(function () {
+        log(hdr.getBoundingClientRect().top === 0 && hdr.classList.contains('is-scrolled'), 'Header stays pinned after scrolling, scrolled style applied');
+        w.scrollTo({ top: 0, behavior: "instant" });
+        // Theme
+        var root = d.documentElement, t0 = root.getAttribute('data-theme'), var0 = w.getComputedStyle(root).getPropertyValue('--bg').trim(), bg0 = w.getComputedStyle(d.body).backgroundColor;
+        d.querySelector('[data-theme-toggle]').click();
+        var t1 = root.getAttribute('data-theme'), var1 = w.getComputedStyle(root).getPropertyValue('--bg').trim();
+        log(t0 === 'light' && t1 === 'dark' && var0 !== var1, 'Theme toggle light→dark switches tokens (--bg ' + var0 + ' → ' + var1 + ')');
+        log(localStorage.getItem('sb-theme') === 'dark', 'Theme choice saved');
+        wait(function () {
+          d.body.getAnimations().forEach(function (a) { a.finish(); }); var bg1 = w.getComputedStyle(d.body).backgroundColor;
+          log(bg0 !== bg1, 'Page background after theme transition completes: ' + bg0 + ' → ' + bg1);
+          d.querySelector('[data-theme-toggle]').click();
+          wait(function () {
+            d.body.getAnimations().forEach(function (a) { a.finish(); }); log(root.getAttribute('data-theme') === 'light' && w.getComputedStyle(d.body).backgroundColor === bg0, 'Theme toggle dark→light restores background');
+            // Direction
+            d.querySelector('[data-dir-toggle]').click();
+            log(root.dir === 'rtl' && localStorage.getItem('sb-dir') === 'rtl', 'Direction toggle → RTL (saved)');
+            log(rightHeadings(w, d) === 0, 'Home 1 RTL: 0 right-aligned headings of ' + d.querySelectorAll('h1,h2,h3,h4,h5,h6').length);
+            log(overflow(d) <= 0, 'Home 1 RTL 1440: no horizontal overflow');
+            d.querySelector('[data-dir-toggle]').click(); log(root.dir === 'ltr', 'Direction toggle → LTR');
+            // Footer
+            var ft = d.querySelector('footer.sb-footer'), secs = ft.querySelectorAll('section');
+            log(secs.length === 6, 'Footer sections (' + secs.length + '): ' + [].map.call(secs, function (s) { return s.getAttribute('aria-label') || s.querySelector('h2').textContent; }).join(' | '));
+            log(ft.querySelectorAll('.sb-social a').length === 4, 'Footer social icons: ' + ft.querySelectorAll('.sb-social a').length);
+            log(!/credit|unsplash|photo by/i.test(ft.textContent), 'Footer contains no image credits');
+            checkLinks(d, 'index.html', 'Home 1 (header + content + footer)', n);
+          }, 450);
+        }, 450);
+      }, 300);
+    });
+  },
+  // ---------- Header (mobile) ----------
+  function (n) {
+    load('index.html', 390, function (w, d) {
+      var t = d.querySelector('[data-mobile-toggle]'), p = d.getElementById('mobile-nav');
+      log(w.getComputedStyle(t).display !== 'none' && !d.querySelector('nav[aria-label=Main]').offsetParent, 'At 390px: hamburger shown, desktop nav hidden');
+      t.click(); log(!p.hidden && t.getAttribute('aria-expanded') === 'true', 'Mobile menu opens');
+      var g = p.querySelector('[data-m-group]'), sub = d.getElementById('m-home'), was = sub.hidden; g.click();
+      log(sub.hidden !== was, 'Mobile Home group expands/collapses'); if (sub.hidden) g.click();
+      var ml = [].map.call(p.querySelectorAll('a'), function (a) { return a.textContent.trim(); });
+      log(ml.join(',') === 'Home 1,Home 2,Programs,Competitions,About,Contact,Dashboard,Login Portal', 'Mobile menu links: ' + ml.join(', '));
+      d.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Escape' })); log(p.hidden, 'Mobile menu closes with Escape');
+      log(overflow(d) <= 0, 'Home 1 390px: no horizontal overflow');
+      n();
+    });
+  },
+  // ---------- Home 2 ----------
+  function (n) {
+    load('home-2.html', 1440, function (w, d) {
+      var a = d.getElementById('f-age');
+      d.querySelector('[name=goal][value=school]').click();
+      [4, 7, 12].forEach(function (v) { a.value = v; a.dispatchEvent(new Event('input')); log(/Vedic/.test(d.getElementById('f-prog').textContent) && d.getElementById('f-age-out').textContent == v, 'Finder: Vedic Maths offered at age ' + v + ' (no age restriction)'); });
+      d.querySelector('[name=goal][value=focus]').click(); a.value = 5; a.dispatchEvent(new Event('input'));
+      log(/Abacus/.test(d.getElementById('f-prog').textContent) && /4–6/.test(d.getElementById('f-meta').textContent), 'Finder: age 5 focus → Abacus, 4–6 batch');
+      d.querySelector('[data-mode=online]').click(); log(/Live/.test(d.getElementById('f-meta').textContent), 'Finder: online mode updates batch time');
+      d.querySelector('#t-online').click(); log(!d.getElementById('p-online').hidden && d.getElementById('p-centre').hidden, 'Learning-mode tabs switch to Live online');
+      d.querySelector('[data-month="1"]').click(); var v1 = d.querySelector('#ben-meters [data-val]').textContent;
+      d.querySelector('[data-month="6"]').click(); log(v1 !== d.querySelector('#ben-meters [data-val]').textContent, 'Benefits Month 1/Month 6 toggle updates meters');
+      var nx = d.getElementById('w-next'); nx.click(); log(!!d.querySelector('[data-step="1"] .field.invalid'), 'Enrolment form blocks empty step 1');
+      d.getElementById('w-child').value = 'Arya'; d.getElementById('w-age').value = '5'; nx.click();
+      var vedic = d.querySelector('[name=w-prog][value="Vedic Maths"]');
+      log(!d.querySelector('[data-step="2"]').hidden && !vedic.disabled, 'Step 2 reached; Vedic Maths selectable for age 5');
+      vedic.click(); nx.click(); log(!d.querySelector('[data-step="3"]').hidden, 'Step 3 reached');
+      d.getElementById('w-parent').value = 'Lata'; d.getElementById('w-phone').value = '+91 98400 12345'; d.getElementById('w-email').value = 'lata@example.com'; nx.click();
+      wait(function () {
+        log(d.getElementById('w-done').classList.contains('show') && /Vedic Maths/.test(d.getElementById('w-summary').textContent), 'Enrolment success shows Vedic Maths for age 5');
+        d.querySelector('[data-dir-toggle]').click();
+        log(rightHeadings(w, d) === 0, 'Home 2 RTL: 0 right-aligned headings of ' + d.querySelectorAll('h1,h2,h3,h4,h5,h6').length);
+        log(overflow(d) <= 0, 'Home 2 RTL 1440: no horizontal overflow');
+        d.querySelector('[data-dir-toggle]').click();
+        checkLinks(d, 'home-2.html', 'Home 2 (header + content + footer)', n);
+      }, 1300);
+    });
+  },
+  function (n) { load('home-2.html', 390, function (w, d) { log(overflow(d) <= 0, 'Home 2 390px: no horizontal overflow'); n(); }); },
+  // ---------- Dashboard ----------
+  function (n) {
+    localStorage.clear(); sessionStorage.clear();
+    load('dashboard.html', 1280, function (w, d) {
+      log(/dashboard\.html/.test(w.location.href), 'Dashboard opens directly with no session (no redirect)');
+      log(d.querySelectorAll('#upnext li').length > 0 && /₹/.test(d.getElementById('kpi-due').textContent) && d.querySelector('#view-overview.active'), 'Dashboard renders: overview active, upcoming classes, fee KPI');
+      var views = ['children', 'enrolment', 'progress', 'schedule', 'fees', 'payments', 'profile', 'overview'], okAll = true;
+      views.forEach(function (v) { d.querySelector('.side-nav a[data-view="' + v + '"]').click(); });
+      // hashchange is async — verify each by setting hash and waiting
+      var i = 0;
+      (function nextView() {
+        if (i === views.length) { log(okAll, 'All 8 dashboard sections open from the sidebar'); after(); return; }
+        var v = views[i++]; w.location.hash = v;
+        wait(function () { if (!d.querySelector('#view-' + v + '.active')) { okAll = false; out.textContent += '   view failed: ' + v + '\n'; } nextView(); }, 120);
+      })();
+      function after() {
+        w.location.hash = 'enrolment';
+        wait(function () {
+          d.querySelector('[data-enrol="vedic"]').click();
+          var sel = d.getElementById('en-child'); sel.value = 'diya'; sel.dispatchEvent(new Event('change'));
+          log(/Ages 4–12/.test(d.getElementById('enrol-sub').textContent), 'Enrol modal shows Ages 4–12');
+          var before = d.querySelectorAll('#enrol-body tr').length;
+          d.querySelector('#enrol-form [type=submit]').click();
+          wait(function () {
+            log(d.querySelectorAll('#enrol-body tr').length === before + 1, 'Diya (age 6) can enrol in Vedic Maths — no age block');
+            d.querySelector('#pay-btn') && (w.location.hash = 'fees');
+            wait(function () {
+              d.getElementById('pay-btn').click();
+              log(d.getElementById('pay-modal').classList.contains('open'), 'Fee payment modal opens');
+              d.querySelector('#pay-modal [data-close]').click();
+              n();
+            }, 200);
+          }, 1200);
+        }, 200);
+      }
+    });
+  },
+  function (n) {
+    load('dashboard.html#payments', 1280, function (w, d) {
+      log(!!d.querySelector('#view-payments.active') && d.getElementById('view-title').textContent === 'Payment History', 'Deep link dashboard.html#payments opens Payment History');
+      load('dashboard.html#enrolment', 1280, function (w2, d2) { log(!!d2.querySelector('#view-enrolment.active'), 'Deep link dashboard.html#enrolment (used by Home 1 & 2) opens Program Enrolment'); n(); });
+    });
+  },
+  // ---------- Login Portal ----------
+  function (n) {
+    localStorage.setItem('sb-parent-session', '{"id":"x"}');
+    load('login.html', 1280, function (w, d) {
+      log(/login\.html/.test(w.location.href) && !!d.getElementById('login-form'), 'Login Portal stays on its own page even with an active session');
+      d.querySelector('[data-open="forgot-modal"]').click(); log(d.getElementById('forgot-modal').classList.contains('open'), 'Forgot-password modal opens');
+      d.querySelector('#forgot-modal [data-close]').click();
+      d.getElementById('t-otp').click(); log(!d.getElementById('p-otp').hidden, 'OTP tab switches');
+      d.getElementById('t-pass').click();
+      d.querySelector('#login-form [type=submit]').click(); log(!!d.querySelector('#login-form .field.invalid'), 'Sign-in validates empty fields');
+      localStorage.clear();
+      d.getElementById('l-email').value = 'meera.iyer@outlook.in'; d.getElementById('l-pass').value = 'bead2026'; d.querySelector('#login-form [type=submit]').click();
+      wait(function () { log(/dashboard\.html/.test(w.location.href), 'Sign-in submits and opens the Dashboard'); n(); }, 2200);
+    });
+  },
+  // ---------- Phase 3: About page ----------
+  function (n) {
+    localStorage.clear(); localStorage.setItem('sb-theme', 'light');
+    load('about.html', 1440, function (w, d) {
+      var secs = d.querySelectorAll('main > section'), noImg = [].filter.call(secs, function (s) { return !s.querySelector('img'); }).length;
+      log(secs.length === 6 && noImg === 0, 'About: 6 sections, each with an image (' + secs.length + ' sections, ' + noImg + ' without image)');
+      var heads = [].map.call(secs, function (s) { var h = s.querySelector('h1,h2'); return h ? h.textContent.trim() : '?'; });
+      log(heads.length === 6, 'About section headings: ' + heads.join(' | '));
+      log(!/Lakshmi|Arjun|Nandini|Venkatesh|Narayanan/.test(d.body.textContent), 'About: no fictional trainer names');
+      var tabs = d.querySelectorAll('.ab-role-tab'), roles = [].map.call(tabs, function (t) { return t.textContent.trim(); });
+      log(roles.join(',') === 'Abacus Trainer,Vedic Maths Trainer,Junior Learning Facilitator,Online Class Trainer', 'Trainer roles (role-based): ' + roles.join(', '));
+      tabs[1].click(); log(!d.getElementById('rp-vedic').hidden && d.getElementById('rp-abacus').hidden && tabs[1].getAttribute('aria-selected') === 'true', 'Trainer role tab click shows Vedic Maths Trainer panel');
+      tabs[1].focus(); tabs[1].dispatchEvent(new w.KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+      log(d.activeElement === tabs[2] && !d.getElementById('rp-junior').hidden, 'Trainer roles: ArrowDown moves to next role (vertical tablist)');
+      var b = d.querySelector('.ab-intro [data-open="assess-modal"]'); b.click();
+      log(d.getElementById('assess-modal') && d.getElementById('assess-modal').classList.contains('open'), 'About intro CTA opens the free-assessment form');
+      d.querySelector('#assess-modal [data-close]').click();
+      checkLinks(d, 'about.html', 'About (header + content + footer)', n);
+    });
+  },
+  // ---------- Phase 3: Contact page ----------
+  function (n) {
+    load('contact.html', 1440, function (w, d) {
+      var secs = d.querySelectorAll('main > section'), noImg = [].filter.call(secs, function (s) { return !s.querySelector('img'); }).length;
+      log(secs.length === 4 && noImg === 0, 'Contact: 4 Stage-1 sections (hero, information, form, FAQ), each with an image');
+      log(!d.querySelector('iframe') && !/google\.[a-z.]+\/maps|maps\.google/i.test(d.documentElement.innerHTML), 'Contact: no map embed or map link yet (waiting for verified address)');
+      var hero = d.querySelector('.ct-hero');
+      log(!!hero.querySelector('h1') && !!hero.querySelector('a[href="#enquiry"]') && !!hero.querySelector('[data-open="assess-modal"]') && !!hero.querySelector('img'), 'Contact hero: heading, enquiry CTA, assessment CTA and visual');
+      var dts = [].map.call(d.querySelectorAll('.ct-channel dt'), function (x) { return x.textContent.trim(); }), info = d.getElementById('reach').textContent;
+      log(dts.join(',') === 'Phone,Email,Academy address,Working hours', 'Contact information categories: ' + dts.join(', '));
+      log(!/\d{5,}|@|\b\d{1,2}(:\d{2})?\s?(am|pm)\b/i.test(info.replace(/\s+/g, ' ')), 'Contact information shows no phone numbers, emails, addresses or hours');
+      // form: empty submit
+      var f = d.getElementById('ct-form'), submit = f.querySelector('[type=submit]');
+      submit.click();
+      var sum = d.getElementById('ct-errors'), errs = d.querySelectorAll('#ct-form .invalid');
+      log(!sum.hidden && errs.length === 8 && d.activeElement === sum, 'Empty submit: error summary shown and focused, 8 fields flagged');
+      log(/Please enter the parent’s name/.test(d.getElementById('ct-name-err').textContent) && /Please choose a learning mode/.test(d.getElementById('ct-mode-err').textContent), 'Clear field messages (e.g. "' + d.getElementById('ct-name-err').textContent + '")');
+      // invalid values
+      function set(id, v) { var el = d.getElementById(id); el.value = v; el.dispatchEvent(new Event('input')); el.dispatchEvent(new Event('change')); }
+      set('ct-name', 'A'); set('ct-phone', '12345'); set('ct-email', 'meera@'); set('ct-msg', 'Hi');
+      submit.click();
+      log(/at least 2/.test(d.getElementById('ct-name-err').textContent), 'Short name rejected: ' + d.getElementById('ct-name-err').textContent);
+      log(/10–13 digits/.test(d.getElementById('ct-phone-err').textContent), 'Invalid phone rejected: ' + d.getElementById('ct-phone-err').textContent);
+      log(/valid email/.test(d.getElementById('ct-email-err').textContent), 'Invalid email rejected: ' + d.getElementById('ct-email-err').textContent);
+      log(/at least 10/.test(d.getElementById('ct-msg-err').textContent), 'Short message rejected: ' + d.getElementById('ct-msg-err').textContent);
+      set('ct-phone', '98AB012345'); submit.click(); log(/digits only/.test(d.getElementById('ct-phone-err').textContent), 'Letters in phone rejected');
+      var ages = [].map.call(d.querySelectorAll('#ct-age option[value]:not([value=""])'), function (o) { return +o.value; });
+      log(ages[0] === 4 && ages[ages.length - 1] === 12 && ages.length === 9, 'Child’s age options limited to 4–12');
+      // fix one field → its error clears live
+      set('ct-email', 'meera.iyer@example.com'); log(!d.getElementById('ct-email').closest('.field').classList.contains('invalid'), 'Error clears as soon as the email is corrected');
+      // contact shortcut presets reply method
+      d.querySelector('[data-contact-pref="email"]').click(); log(f.querySelector('[name=pref][value="Email"]').checked, '"Write a message" shortcut presets reply by Email');
+      // valid submission
+      set('ct-name', 'Meera Iyer'); set('ct-phone', '+91 98765 43210'); set('ct-age', '6'); set('ct-program', 'Vedic Maths');
+      f.querySelector('[name=mode][value="Live online"]').click(); set('ct-msg', 'Which batch suits my daughter?'); d.getElementById('ct-consent').click();
+      submit.click();
+      wait(function () {
+        var ok = d.getElementById('ct-success');
+        log(ok.classList.contains('show') && f.hidden && d.getElementById('ct-errors').hidden, 'Valid enquiry shows success confirmation');
+        log(/Vedic Maths/.test(d.getElementById('ct-success-msg').textContent) && /6-year-old/.test(d.getElementById('ct-success-msg').textContent) && /email/.test(d.getElementById('ct-success-msg').textContent), 'Confirmation summarises the enquiry: ' + d.getElementById('ct-success-msg').textContent);
+        d.getElementById('ct-again').click(); log(!f.hidden && d.getElementById('ct-name').value === '', '"Send another enquiry" resets the form');
+        // FAQ accordion
+        var items = d.querySelectorAll('#faq-list .acc-item'), topics = {};
+        [].forEach.call(items, function (it) { it.getAttribute('data-topic').split(' ').forEach(function (t) { topics[t] = 1; }); });
+        log(items.length === 10 && ['abacus', 'vedic', 'age', 'online', 'offline', 'enrol'].every(function (t) { return topics[t]; }), 'FAQ: 10 questions covering Abacus, Vedic, Age, Online, Offline, Enrolment');
+        var b1 = items[0].querySelector('.acc-btn'), p1 = d.getElementById(b1.getAttribute('aria-controls'));
+        log(p1 && p1.getAttribute('role') === 'region' && p1.getAttribute('aria-labelledby') === b1.id && p1.getAttribute('aria-hidden') === 'true', 'FAQ accessible wiring: aria-controls → region, collapsed answers hidden from AT');
+        b1.click(); log(b1.getAttribute('aria-expanded') === 'true' && p1.getAttribute('aria-hidden') === 'false' && items[0].classList.contains('open'), 'FAQ opens on click');
+        var b2 = items[4].querySelector('.acc-btn'); b2.click();
+        log(b1.getAttribute('aria-expanded') === 'false' && b2.getAttribute('aria-expanded') === 'true', 'Opening another question closes the first');
+        log(/4–12/.test(items[4].textContent), 'Age FAQ states 4–12');
+        d.querySelector('[data-faq-filter="online"]').click();
+        var vis = [].filter.call(items, function (it) { return !it.hidden; });
+        log(vis.length === 2 && vis.every(function (it) { return /online/.test(it.getAttribute('data-topic')); }), 'FAQ filter "Online" shows only online questions (' + vis.length + ')');
+        d.querySelector('[data-faq-filter="all"]').click(); log([].every.call(items, function (it) { return !it.hidden; }), 'FAQ filter "All" restores every question');
+        checkLinks(d, 'contact.html', 'Contact (header + content + footer)', n);
+      }, 1300);
+    });
+  },
+  // ---------- Phase 3: theme × direction matrix for About and Contact ----------
+  function (n) {
+    var combos = [];
+    ['about.html', 'contact.html'].forEach(function (p) { [['light', 'ltr'], ['light', 'rtl'], ['dark', 'ltr'], ['dark', 'rtl']].forEach(function (c) { combos.push([p, c[0], c[1]]); }); });
+    function lum(rgb) { var m = rgb.match(/[\d.]+/g).slice(0, 3).map(function (v) { v = v / 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return .2126 * m[0] + .7152 * m[1] + .0722 * m[2]; }
+    function ratio(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); }
+    (function next() {
+      var c = combos.shift(); if (!c) { n(); return; }
+      localStorage.setItem('sb-theme', c[1]); localStorage.setItem('sb-dir', c[2]);
+      load(c[0], 1280, function (w, d) {
+        d.body.getAnimations().forEach(function (a) { a.finish(); });
+        var bg = w.getComputedStyle(d.body).backgroundColor, h1 = w.getComputedStyle(d.querySelector('h1')).color, lead = w.getComputedStyle(d.querySelector('.lead')).color;
+        var r1 = ratio(h1, bg), r2 = ratio(lead, bg);
+        var ok = d.documentElement.getAttribute('data-theme') === c[1] && d.documentElement.dir === c[2] && rightHeadings(w, d) === 0 && overflow(d) <= 0 && r1 >= 4.5 && r2 >= 4.5;
+        log(ok, c.join(' / ') + ': 0 right-aligned headings of ' + d.querySelectorAll('h1,h2,h3,h4,h5,h6').length + ', no overflow, contrast h1 ' + r1.toFixed(1) + ':1, body ' + r2.toFixed(1) + ':1');
+        next();
+      });
+    })();
+  },
+  // ---------- Content scans across the built site ----------
+  function (n) {
+    localStorage.clear();
+    var files = ['index.html', 'home-2.html', 'programs.html', 'competitions.html', 'about.html', 'contact.html', 'login.html', 'dashboard.html', 'assets/js/app.js', 'assets/js/home2.js', 'assets/js/dashboard.js', 'assets/js/login.js', 'assets/js/competitions.js', 'assets/js/contact.js'], pend = files.length, ages = [], words = [], badAges = [], placeholders = [], subRanges = [], unverified = [];
+    files.forEach(function (f) {
+      fetchText(R + '/' + f, function (ok, t) {
+        (t.match(/(4201|sutrabead\.in|adyar|anna nagar|gandhi nagar|gstin|tel:|mailto:|wa\.me|mon[–-]sat|600020|600040)/gi) || []).forEach(function (s) { placeholders.push(f + ': ' + s); });
+        if (--pend === 0) { log(placeholders.length === 0, 'Placeholder contact details removed site-wide (phone, email, addresses, hours, GSTIN)' + (placeholders.length ? ' — FOUND: ' + placeholders.join('; ') : '')); }
+      });
+    });
+    pend = files.length;
+    var pend2 = files.length;
+    files.forEach(function (f) {
+      fetchText(R + '/' + f, function (ok, t) {
+        var txt = t.replace(/<script[\s\S]*?<\/script>/g, f.slice(-3) === '.js' ? '$&' : '').replace(/<[^>]+>/g, ' ');
+        (txt.match(/Ages? \d+\s?[–-]\s?\d+/gi) || []).forEach(function (s) {
+          ages.push(s); var m = s.match(/(\d+)\s?[–-]\s?(\d+)/), r = m[1] + '–' + m[2];
+          if (+m[1] < 4 || +m[2] > 12) badAges.push(f + ': ' + s);
+          else if (['4–12', '4–6', '7–9', '10–12'].indexOf(r) < 0) badAges.push(f + ': ' + s + ' (not a confirmed age group)');
+          else if (r !== '4–12') subRanges.push(f + ': ' + s);
+        });
+        (txt.match(/(Nandini|Priya Shankar|Narayanan|Lakshmi Venkatesh|Besant Nagar|120[- ]hour|120 h\b|Chennai Zone|Tamil Nadu Abacus Association)/g) || []).forEach(function (s) { unverified.push(f + ': ' + s); });
+        (txt.match(/(1[0-4]\s?[–-]\s?14|11\s?[–-]\s?1[2-4]|from age \d+|ages? \d+\+|is for ages)/gi) || []).forEach(function (s) { badAges.push(f + ': ' + s); });
+        // Matched on raw HTML so a hit must sit inside one element (no "<" between "Vedic" and the range).
+        (t.match(/Vedic[^.<]{0,60}\b(1[0-4]\s?[–-]\s?1[0-4])/g) || []).forEach(function (s) { badAges.push(f + ': ' + s); });
+        (txt.match(/\b(demo|dummy|sample|mock|static|test account|frontend[- ]only|coming soon|lorem)\b/gi) || []).forEach(function (s) { words.push(f + ': ' + s); });
+        if (--pend2 === 0) {
+          log(badAges.length === 0, 'Age consistency: ' + ages.length + ' "Ages …" labels, all within 4–12; no Vedic-only or out-of-range limits' + (badAges.length ? ' — BAD: ' + badAges.join('; ') : ''));
+          if (subRanges.length) out.textContent += 'INFO Confirmed age-group mentions (4–6 / 7–9 / 10–12): ' + subRanges.length + '\n';
+          log(unverified.length === 0, 'Unverified content removed: fictional trainer names, parent address, 120-hour certification, unverified award' + (unverified.length ? ' — FOUND: ' + unverified.join('; ') : ''));
+          log(words.length === 0, 'Restricted words absent from all pages and scripts' + (words.length ? ' — FOUND: ' + words.join('; ') : ''));
+          setTimeout(n, 300);
+        }
+      });
+    });
+  },
+  function (n) {
+    var files = ['index.html', 'home-2.html', 'programs.html', 'competitions.html', 'about.html', 'contact.html', 'login.html', 'dashboard.html'], pend = files.length, owner = {}, dup = [];
+    files.forEach(function (f) {
+      fetchText(R + '/' + f, function (ok, t) {
+        (t.match(/images\.unsplash\.com\/photo-[0-9a-f-]+/g) || []).forEach(function (u) { if (owner[u] && owner[u] !== f + '#') dup.push(u.slice(28) + ' (' + owner[u] + ' & ' + f + ')'); owner[u] = owner[u] || f; });
+        if (--pend === 0) { log(dup.length === 0, 'Image uniqueness: ' + Object.keys(owner).length + ' unique images across ' + files.length + ' pages, ' + dup.length + ' duplicates'); n(); }
+      });
+    });
+  },
+  function () { out.textContent += '\nRESULT: ' + pass + ' passed, ' + fail + ' failed\nDONE'; localStorage.clear(); }
+];
+function run() { var s = steps.shift(); if (s) s(run); } run();
+</script></body>

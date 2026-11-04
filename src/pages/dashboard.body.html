@@ -1,0 +1,483 @@
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="dash">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar" aria-label="Dashboard navigation">
+    <a class="brand" href="index.html" aria-label="SutraBead Academy website">{{LOGO}}<span class="brand-text"><span class="brand-name">SutraBead</span><span class="brand-tag">Parent account</span></span></a>
+    <div>
+      <div class="side-label">Family</div>
+      <ul class="side-nav">
+        <li><a href="#overview" data-view="overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/></svg>Dashboard Overview</a></li>
+        <li><a href="#children" data-view="children"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9.5" r="2.5"/><path d="M3 20c.8-3.4 3.2-5.5 6-5.5s5.2 2.1 6 5.5M15 15.2c2.6-.4 4.9 1.2 6 4.8"/></svg>My Children</a></li>
+        <li><a href="#enrolment" data-view="enrolment"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h11l5 5v9a1 1 0 0 1-1 1H4z"/><path d="M15 5v5h5M8 14h8M8 17h5"/></svg>Program Enrolment</a></li>
+        <li><a href="#progress" data-view="progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M6 16v-4M11 16V8M16 16v-6M21 4l-5 4-4-2-6 4"/></svg>Learning Progress</a></li>
+        <li><a href="#schedule" data-view="schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Class Schedules</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="side-label">Account</div>
+      <ul class="side-nav">
+        <li><a href="#fees" data-view="fees"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="6" width="20" height="13" rx="3"/><path d="M2 10h20M6 15h4"/></svg>Fee Payments<span class="count" id="due-count">2</span></a></li>
+        <li><a href="#payments" data-view="payments"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>Payment History</a></li>
+        <li><a href="#profile" data-view="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Profile Settings</a></li>
+      </ul>
+    </div>
+    <div class="side-help">
+      <div class="bead-rod" aria-hidden="true"><i style="--c:#ffb938"></i><i style="--c:#ffb938"></i><i style="--c:#ff7a72"></i><i style="--c:#3dd6bc"></i><i style="--c:#8f87ff"></i></div>
+      <h3>Need a hand?</h3>
+      <p>Questions about classes or fees? Our team will get back to you.</p>
+      <a href="contact.html#enquiry">Send a message</a>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="dash-main">
+    <header class="topbar">
+      <button class="icon-btn side-toggle" type="button" id="side-toggle" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></button>
+      <div class="topbar-title"><h1 id="view-title">Dashboard Overview</h1><span id="today-label"></span></div>
+      <div class="topbar-tools">
+        {{TOGGLES}}
+        <div class="dropdown">
+          <button class="icon-btn" type="button" data-menu="notif-menu" aria-haspopup="true" aria-expanded="false" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg><span class="badge-dot" id="notif-dot"></span></button>
+          <div class="menu" id="notif-menu" role="menu">
+            <div class="menu-head"><h3>Notifications</h3><button class="link-btn" type="button" id="mark-read">Mark all read</button></div>
+            <div class="notif unread"><span class="ico ico-saffron">₹</span><div><strong>Diya’s quarterly fee due 10 Nov</strong><span>₹6,600 · Abacus Level 1</span></div></div>
+            <div class="notif unread"><span class="ico ico-teal">★</span><div><strong>Aarav scored 96% in Level 3 assessment</strong><span>Certificate ready to collect</span></div></div>
+            <div class="notif"><span class="ico ico-brand">🗓</span><div><strong>Level 4 assessment on 22 Nov</strong><span>Academy centre · 10:00 am</span></div></div>
+            <a href="#schedule" data-view="schedule" role="menuitem" style="justify-content:center;color:var(--brand)">View class schedule</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="avatar-btn" type="button" data-menu="user-menu" aria-haspopup="true" aria-expanded="false"><span class="initials" id="top-initials">MI</span><span class="nm" id="top-name">Meera Iyer</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="menu" id="user-menu" role="menu" style="min-width:240px">
+            <div class="who"><strong id="menu-name">Meera Iyer</strong><span id="menu-email">meera.iyer@outlook.in</span></div>
+            <a href="#profile" data-view="profile" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Profile settings</a>
+            <a href="#payments" data-view="payments" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/></svg>Receipts</a>
+            <a href="index.html" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Academy website</a>
+            <button class="menu-item danger" type="button" role="menuitem" data-open="signout-modal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l-5-5 5-5M5 12h11"/></svg>Sign out</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="views" id="main" tabindex="-1">
+
+      <!-- ===== Overview ===== -->
+      <section class="view" id="view-overview" aria-labelledby="ov-title">
+        <div class="welcome">
+          <div class="w-copy">
+            <span class="eyebrow">Wednesday update</span>
+            <h2 id="ov-title"><span id="greet">Good morning</span>, <span data-parent-first>Meera</span></h2>
+            <p id="ov-summary">Diya has class today at 4:00 pm, and Aarav’s Level 4 assessment is coming up on 22 November.</p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <a class="btn btn-saffron" href="#fees" data-view="fees">Pay pending fees</a>
+              <a class="btn btn-outline" href="#progress" data-view="progress">See progress</a>
+            </div>
+          </div>
+          <div class="w-img"><img src="{{img:1629360067822-89c74b25bb66|900|Dashboard · Overview — parent with daughter at home}}" alt="A mother sitting beside her daughter as she studies"></div>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi"><div class="k-top"><span class="k-label">Active enrolments</span><span class="ico ico-brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2zM8 7h6"/></svg></span></div><span class="k-val" id="kpi-enrol">3</span><span class="k-sub">Across 2 children</span></div>
+          <div class="kpi"><div class="k-top"><span class="k-label">Attendance · Oct</span><span class="ico ico-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span></div><span class="k-val">92%</span><span class="k-sub">23 of 25 classes</span></div>
+          <div class="kpi"><div class="k-top"><span class="k-label">Practice streak</span><span class="ico ico-coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-9z"/></svg></span></div><span class="k-val">12 days</span><span class="k-sub">Aarav · personal best</span></div>
+          <div class="kpi"><div class="k-top"><span class="k-label">Fees due</span><span class="ico ico-saffron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="6" width="20" height="13" rx="3"/><path d="M2 10h20"/></svg></span></div><span class="k-val" id="kpi-due">₹12,000</span><span class="k-sub" id="kpi-due-sub">Next due 10 Nov</span></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="stack">
+            <div class="panel">
+              <div class="panel-head"><h3>Up next</h3><a class="btn btn-ghost btn-sm" href="#schedule" data-view="schedule">Full timetable</a></div>
+              <ul class="list" id="upnext"></ul>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h3>Level progress</h3><a class="btn btn-ghost btn-sm" href="#progress" data-view="progress">Details</a></div>
+              <div id="mini-progress"></div>
+            </div>
+          </div>
+          <div class="stack">
+            <div class="panel">
+              <div class="panel-head"><h3>Quick actions</h3></div>
+              <div class="quick">
+                <a href="#fees" data-view="fees"><span class="ico ico-saffron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="6" width="20" height="13" rx="3"/><path d="M2 10h20"/></svg></span>Pay fees</a>
+                <button type="button" data-open="reschedule-modal"><span class="ico ico-brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>Reschedule class</button>
+                <a href="#enrolment" data-view="enrolment"><span class="ico ico-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>Enrol in a program</a>
+                <a href="#payments" data-view="payments"><span class="ico ico-coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></span>Download receipts</a>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h3>Recent highlights</h3></div>
+              <ul class="list">
+                <li><span class="ico ico-teal" style="width:40px;height:40px;border-radius:12px">★</span><div class="li-main"><strong>Aarav cleared Level 3 with 96%</strong><span>28 Oct · Certificate issued</span></div></li>
+                <li><span class="ico ico-saffron" style="width:40px;height:40px;border-radius:12px">🏅</span><div class="li-main"><strong>Diya earned the “Bead Star” badge</strong><span>24 Oct · 5 perfect worksheets</span></div></li>
+                <li><span class="ico ico-brand" style="width:40px;height:40px;border-radius:12px">⚡</span><div class="li-main"><strong>Aarav: 20 sums in 58 seconds</strong><span>19 Oct · New class record</span></div></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== My Children ===== -->
+      <section class="view" id="view-children" aria-labelledby="ch-title">
+        <div class="view-head"><div><h2 id="ch-title">My Children</h2><p>Profiles, batches and trainers for each child.</p></div><button class="btn btn-primary btn-sm" type="button" data-open="child-modal">+ Add a child</button></div>
+        <div class="kids" id="kids">
+          <article class="kid" data-kid="aarav">
+            <div class="kid-top">
+              <div class="kid-photo"><img src="{{img:1552873816-636e43209957|400|Dashboard · My Children — Aarav profile photo}}" alt="Aarav Iyer"></div>
+              <div class="kid-id"><h3>Aarav Iyer</h3><span>10 yrs · Class 5 · ID SB-2025-0418</span><span class="chip ok">Active · 2 programs</span></div>
+            </div>
+            <div class="kid-body">
+              <dl class="facts">
+                <div><dt>Abacus</dt><dd>Level 4 · Mind Abacus</dd></div>
+                <div><dt>Vedic Maths</dt><dd>Module 1 · Foundations</dd></div>
+                <div><dt>Trainer</dt><dd>Abacus Trainer</dd></div>
+                <div><dt>Centre</dt><dd>Academy · Room 3</dd></div>
+              </dl>
+              <div class="ring-row"><div class="ring" style="--c:var(--teal)" data-ring="94"><svg viewBox="0 0 80 80"><circle class="trk" cx="40" cy="40" r="34"/><circle class="val" cx="40" cy="40" r="34"/></svg><b>94%</b></div><p><strong>Attendance this term</strong><br><span class="muted">32 of 34 classes attended</span></p></div>
+            </div>
+            <div class="kid-foot"><a class="btn btn-outline btn-sm" href="#progress" data-view="progress" data-child-link="aarav">View progress</a><a class="btn btn-ghost btn-sm" href="#schedule" data-view="schedule" data-child-link="aarav">Timetable</a></div>
+          </article>
+          <article class="kid" data-kid="diya">
+            <div class="kid-top">
+              <div class="kid-photo"><img src="{{img:1630864972901-052dfdc7fba4|400|Dashboard · My Children — Diya profile photo}}" alt="Diya Iyer"></div>
+              <div class="kid-id"><h3>Diya Iyer</h3><span>6 yrs · Class 1 · ID SB-2026-1172</span><span class="chip ok">Active · 1 program</span></div>
+            </div>
+            <div class="kid-body">
+              <dl class="facts">
+                <div><dt>Abacus</dt><dd>Level 1 · Bead Basics</dd></div>
+                <div><dt>Batch</dt><dd>Wed &amp; Sat</dd></div>
+                <div><dt>Trainer</dt><dd>Abacus Trainer</dd></div>
+                <div><dt>Centre</dt><dd>Academy · Room 1</dd></div>
+              </dl>
+              <div class="ring-row"><div class="ring" style="--c:var(--brand)" data-ring="88"><svg viewBox="0 0 80 80"><circle class="trk" cx="40" cy="40" r="34"/><circle class="val" cx="40" cy="40" r="34"/></svg><b>88%</b></div><p><strong>Attendance this term</strong><br><span class="muted">22 of 25 classes attended</span></p></div>
+            </div>
+            <div class="kid-foot"><a class="btn btn-outline btn-sm" href="#progress" data-view="progress" data-child-link="diya">View progress</a><a class="btn btn-ghost btn-sm" href="#schedule" data-view="schedule" data-child-link="diya">Timetable</a></div>
+          </article>
+          <button class="add-kid" type="button" data-open="child-modal"><span><span class="bead-rod" aria-hidden="true"><i style="--c:var(--saffron)"></i><i style="--c:var(--coral)"></i><i style="--c:var(--teal)"></i><i style="--c:var(--brand)"></i></span>Add another child<br><small class="muted" style="font-weight:600">Siblings get 10% off every plan</small></span></button>
+        </div>
+      </section>
+
+      <!-- ===== Enrolment ===== -->
+      <section class="view" id="view-enrolment" aria-labelledby="en-title">
+        <div class="view-head"><div><h2 id="en-title">Program Enrolment</h2><p>Current enrolments and open batches for the new term.</p></div></div>
+        <div class="panel" style="margin-block-end:20px">
+          <div class="panel-head"><h3>Current enrolments</h3><span class="chip info" id="enrol-count">3 active</span></div>
+          <div class="table-wrap"><table class="table"><thead><tr><th>Child</th><th>Program</th><th>Batch</th><th>Term</th><th>Status</th></tr></thead><tbody id="enrol-body"></tbody></table></div>
+        </div>
+        <div class="panel-head"><h3>Open for enrolment</h3><div class="seg" role="group" aria-label="Filter programs"><button type="button" data-prog-filter="all" aria-pressed="true">All</button><button type="button" data-prog-filter="term" aria-pressed="false">Term programs</button><button type="button" data-prog-filter="camp" aria-pressed="false">Camps</button></div></div>
+        <div class="programs">
+          <article class="prog" data-kind="term">
+            <div class="prog-img"><img src="{{img:1585692277349-7a1b400502dc|700|Dashboard · Enrolment — Abacus program card}}" alt="A bright counting abacus with rows of coloured beads" loading="lazy"><span class="chip info">Ages 4–12</span></div>
+            <div class="prog-body">
+              <h3>Abacus Mental Arithmetic</h3>
+              <p>Next-level batches start 1 Dec. Includes kit refresh and practice app.</p>
+              <div class="prog-meta"><span class="chip neutral">2 classes / week</span><span class="chip neutral">Centre or online</span></div>
+              <div class="prog-foot"><span class="price">₹6,600<small> / qtr</small></span><button class="btn btn-primary btn-sm" type="button" data-enrol="abacus">Enrol</button></div>
+            </div>
+          </article>
+          <article class="prog" data-kind="term">
+            <div class="prog-img"><img src="{{img:1708011271935-3e109df56fe0|700|Dashboard · Enrolment — Vedic Maths program card}}" alt="Handwritten numbers on a sheet of paper" loading="lazy"><span class="chip info">Ages 4–12</span></div>
+            <div class="prog-body">
+              <h3>Vedic Maths Modules</h3>
+              <p>Module 2 “Multiplication magic” begins 6 Dec. Limited to 8 seats.</p>
+              <div class="prog-meta"><span class="chip neutral">1 class / week</span><span class="chip warn">5 seats left</span></div>
+              <div class="prog-foot"><span class="price">₹5,400<small> / module</small></span><button class="btn btn-primary btn-sm" type="button" data-enrol="vedic">Enrol</button></div>
+            </div>
+          </article>
+          <article class="prog" data-kind="camp">
+            <div class="prog-img"><img src="{{img:1588591795084-1770cb3be374|700|Dashboard · Enrolment — Winter camp card}}" alt="A hand holding a jigsaw puzzle piece" loading="lazy"><span class="chip info">Ages 4–12</span></div>
+            <div class="prog-body">
+              <h3>Winter Speed-Maths Camp</h3>
+              <p>8 mornings of puzzles, flash rounds and mental-maths games. 15–24 Dec.</p>
+              <div class="prog-meta"><span class="chip neutral">Mon–Thu · 9:30 am</span><span class="chip neutral">Centre only</span></div>
+              <div class="prog-foot"><span class="price">₹3,200<small> / camp</small></span><button class="btn btn-primary btn-sm" type="button" data-enrol="camp">Enrol</button></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== Progress ===== -->
+      <section class="view" id="view-progress" aria-labelledby="pr-title">
+        <div class="view-hero">
+          <div class="vh-copy">
+            <h2 id="pr-title">Learning Level Progress</h2>
+            <p>Levels, skills and practice — updated after every class.</p>
+            <div class="vh-actions"><div class="seg" role="group" aria-label="Choose child" id="pr-child"><button type="button" data-child="aarav" aria-pressed="true">Aarav</button><button type="button" data-child="diya" aria-pressed="false">Diya</button></div></div>
+          </div>
+          <div class="vh-img"><img src="{{img:1758612898114-4b1504db79a7|700|Dashboard · Progress — boy concentrating on homework}}" alt="A boy concentrating on his maths homework at a desk" loading="lazy"></div>
+        </div>
+        <div class="panel" style="margin-block-end:20px">
+          <div class="panel-head"><h3 id="pr-track-title">Abacus levels</h3><span class="chip info" id="pr-level-chip"></span></div>
+          <div class="lvl-track" id="pr-track" aria-label="Level track"></div>
+          <div class="lvl-legend"><span><i style="background:var(--teal)"></i>Completed</span><span><i style="background:var(--brand)"></i>Current level</span><span><i style="background:var(--surface-2);border:1px solid var(--line-strong)"></i>Upcoming</span></div>
+          <div style="margin-block-start:16px"><div class="row-between" style="font-weight:700;font-size:.9rem;margin-block-end:6px"><span id="pr-syl-label">Current level syllabus</span><span id="pr-syl-val"></span></div><div class="bar"><i id="pr-syl-bar" style="--c:var(--brand)"></i></div></div>
+        </div>
+        <div class="grid-2-even" style="margin-block-end:20px">
+          <div class="panel">
+            <div class="panel-head"><h3>Skill profile</h3><span class="muted" style="font-size:.85rem;font-weight:600">Trainer-rated · out of 100</span></div>
+            <div class="skills" id="pr-skills"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h3>Practice minutes · last 8 weeks</h3><div class="seg" role="group" aria-label="Chart range"><button type="button" data-range="8" aria-pressed="true">8 wk</button><button type="button" data-range="4" aria-pressed="false">4 wk</button></div></div>
+            <div class="chart" id="pr-chart"></div>
+            <div class="chart-legend"><span><i style="background:var(--teal)"></i>Goal met</span><span><i style="background:var(--brand)"></i>Below goal</span><span><i style="background:none;border-top:2px dashed var(--saffron-ink);border-radius:0;height:0;width:16px"></i>Weekly goal</span></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-head"><h3>Assessment scores</h3></div>
+            <div class="table-wrap"><table class="table" style="min-width:480px"><thead><tr><th>Date</th><th>Assessment</th><th>Score</th><th>Result</th></tr></thead><tbody id="pr-scores"></tbody></table></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h3>Trainer’s note</h3></div>
+            <div class="remark" id="pr-remark"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Schedule ===== -->
+      <section class="view" id="view-schedule" aria-labelledby="sc-title">
+        <div class="view-hero">
+          <div class="vh-copy">
+            <h2 id="sc-title">Class Schedules</h2>
+            <p>Weekly timetable for every child. Tap a class for details.</p>
+            <div class="vh-actions"><button class="btn btn-primary btn-sm" type="button" data-open="reschedule-modal">Request reschedule</button><button class="btn btn-outline btn-sm" type="button" id="cal-export">Add to calendar</button></div>
+          </div>
+          <div class="vh-img"><img src="{{img:1435527173128-983b87201f4d|700|Dashboard · Schedules — open monthly planner}}" alt="An open monthly planner on a wooden desk" loading="lazy"></div>
+        </div>
+        <div class="panel">
+          <div class="filters" style="justify-content:space-between">
+            <div class="seg" role="group" aria-label="Filter by child" id="sc-child"><button type="button" data-child="all" aria-pressed="true">All children</button><button type="button" data-child="aarav" aria-pressed="false">Aarav</button><button type="button" data-child="diya" aria-pressed="false">Diya</button></div>
+            <div class="week-nav"><button class="icon-btn" type="button" id="wk-prev" aria-label="Previous week"><svg class="flip-rtl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button><strong id="wk-label" aria-live="polite"></strong><button class="icon-btn" type="button" id="wk-next" aria-label="Next week"><svg class="flip-rtl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><button class="btn btn-ghost btn-sm" type="button" id="wk-today">This week</button></div>
+          </div>
+          <div class="week" id="week"></div>
+          <div class="legend-row"><span><i style="background:#3b2fc9"></i>Aarav · Abacus</span><span><i style="background:#0b7a69"></i>Aarav · Vedic Maths</span><span><i style="background:#d03a33"></i>Diya · Abacus</span><span><i style="background:#e08a00"></i>Assessment / event</span></div>
+        </div>
+      </section>
+
+      <!-- ===== Fees ===== -->
+      <section class="view" id="view-fees" aria-labelledby="fe-title">
+        <div class="view-hero">
+          <div class="vh-copy">
+            <h2 id="fe-title">Fee Payment Overview</h2>
+            <p>Select the dues you’d like to clear and pay securely by UPI, card or net banking.</p>
+          </div>
+          <div class="vh-img"><img src="{{img:1563013544-824ae1b704d3|700|Dashboard · Fees — paying online with a card}}" alt="A person holding a bank card while paying on a laptop" loading="lazy"></div>
+        </div>
+        <div class="kpis kpis-3">
+          <div class="kpi"><span class="k-label">Outstanding</span><span class="k-val" id="fe-out">₹12,000</span><span class="k-sub" id="fe-out-sub">2 dues</span></div>
+          <div class="kpi"><span class="k-label">Paid in 2026</span><span class="k-val" id="fe-paid">₹38,400</span><span class="k-sub">Includes sibling discount</span></div>
+          <div class="kpi"><span class="k-label">Savings this year</span><span class="k-val">₹3,660</span><span class="k-sub">Quarterly + sibling plan</span></div>
+        </div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-head"><h3>Pending dues</h3><label class="check"><input type="checkbox" id="due-all" checked> Select all</label></div>
+            <div id="dues"></div>
+            <div class="pay-bar" id="pay-bar"><div><span>Selected total</span><strong id="sel-total">₹12,000</strong></div><button class="btn btn-saffron" type="button" id="pay-btn">Pay now</button></div>
+          </div>
+          <div class="stack">
+            <div class="panel">
+              <div class="panel-head"><h3>Fee breakdown · current term</h3></div>
+              <ul class="list" id="fee-breakdown">
+                <li><div class="li-main"><strong>Aarav · Abacus Level 4</strong><span>Oct–Dec 2026 · Quarterly</span></div><span class="chip ok">Paid</span></li>
+                <li><div class="li-main"><strong>Aarav · Vedic Module 1</strong><span>Oct–Nov 2026</span></div><span class="chip ok">Paid</span></li>
+                <li><div class="li-main"><strong>Diya · Abacus Level 1</strong><span>Nov 2026–Jan 2027 · Quarterly</span></div><span class="chip warn" id="diya-fee-chip">Due 10 Nov</span></li>
+              </ul>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h3>Saved payment method</h3><button class="link-btn" type="button" id="auto-toggle">Turn on auto-pay</button></div>
+              <div class="saved-method"><span class="ico ico-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></span><div class="li-main"><strong>UPI · meera.iyer@okhdfcbank</strong><span id="auto-status">Auto-pay is off · reminders 5 days before due date</span></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Payment history ===== -->
+      <section class="view" id="view-payments" aria-labelledby="ph-title">
+        <div class="view-hero">
+          <div class="vh-copy">
+            <h2 id="ph-title">Payment History</h2>
+            <p>Every receipt in one place — filter, view or export.</p>
+            <div class="vh-actions"><button class="btn btn-outline btn-sm" type="button" id="export-csv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Export statement (CSV)</button></div>
+          </div>
+          <div class="vh-img"><img src="{{img:1713947506242-8fcae733d158|700|Dashboard · Payment history — parent checking phone}}" alt="A woman at a table checking her phone" loading="lazy"></div>
+        </div>
+        <div class="panel">
+          <div class="filters">
+            <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><label class="sr-only" for="ph-q">Search receipts</label><input class="input" id="ph-q" type="search" placeholder="Search receipt no. or description"></div>
+            <label class="sr-only" for="ph-child">Child</label><select class="select" id="ph-child"><option value="all">All children</option><option value="Aarav">Aarav</option><option value="Diya">Diya</option></select>
+            <label class="sr-only" for="ph-year">Year</label><select class="select" id="ph-year"><option value="all">All years</option><option>2026</option><option>2025</option></select>
+            <label class="sr-only" for="ph-status">Status</label><select class="select" id="ph-status"><option value="all">Any status</option><option>Paid</option><option>Refunded</option></select>
+          </div>
+          <div class="table-wrap"><table class="table"><thead><tr><th>Receipt</th><th>Date</th><th>Child</th><th>Description</th><th>Method</th><th>Amount</th><th>Status</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody id="ph-body"></tbody></table></div>
+          <div class="row-between" style="margin-block-start:14px"><span class="muted" style="font-size:.88rem;font-weight:600" id="ph-count"></span><span style="font-weight:800;color:var(--ink)" id="ph-sum"></span></div>
+        </div>
+      </section>
+
+      <!-- ===== Profile ===== -->
+      <section class="view" id="view-profile" aria-labelledby="pf-title">
+        <div class="profile-card">
+          <div class="pc-photo"><img src="{{img:1607746882042-944635dfe10e|500|Dashboard · Profile — parent account photo}}" alt="Profile photo of Meera Iyer" loading="lazy"></div>
+          <div class="pc-body">
+            <h2 id="pf-title"><span data-parent-name>Meera Iyer</span></h2>
+            <span class="muted" style="font-weight:600">Parent account · Member since January 2025</span>
+            <div class="pc-meta"><span class="chip ok">Verified mobile</span><span class="chip info">2 children linked</span><span class="chip neutral">Centre classes</span></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="stack">
+            <div class="panel">
+              <div class="panel-head"><h3>Personal details</h3></div>
+              <form class="form-grid" id="profile-form" novalidate>
+                <div class="field"><label for="pf-first">First name</label><input class="input" id="pf-first" value="Meera" data-rule="required" autocomplete="given-name"><span class="err">Required.</span></div>
+                <div class="field"><label for="pf-last">Last name</label><input class="input" id="pf-last" value="Iyer" data-rule="required" autocomplete="family-name"><span class="err">Required.</span></div>
+                <div class="field"><label for="pf-email">Email</label><input class="input" id="pf-email" type="email" value="meera.iyer@outlook.in" data-rule="required email" autocomplete="email"><span class="err">Enter a valid email.</span></div>
+                <div class="field"><label for="pf-phone">Mobile</label><input class="input" id="pf-phone" type="tel" value="+91 98401 27736" data-rule="required phone" autocomplete="tel"><span class="err">Enter a valid mobile number.</span></div>
+                <div class="field"><label for="pf-alt">Alternate contact (Father)</label><input class="input" id="pf-alt" value="Ramesh Iyer · +91 98402 55190"></div>
+                <div class="field"><label for="pf-centre">Preferred centre</label><select class="select" id="pf-centre"><option selected>Academy centre</option><option>Live online</option></select></div>
+                <div class="field full"><label for="pf-addr">Address</label><textarea class="textarea" id="pf-addr" style="min-height:80px" placeholder="House / street, area, city, PIN code"></textarea></div>
+                <div class="full" style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-primary" type="submit">Save changes</button><button class="btn btn-outline" type="reset">Discard</button></div>
+              </form>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h3>Change password</h3></div>
+              <form class="form-grid" id="pw-form" novalidate>
+                <div class="field full"><label for="pw-cur">Current password</label><input class="input" id="pw-cur" type="password" data-rule="required min6" autocomplete="current-password"><span class="err">Enter your current password.</span></div>
+                <div class="field"><label for="pw-new">New password</label><input class="input" id="pw-new" type="password" data-rule="required min6" autocomplete="new-password"><div class="pw-meter"><i id="pw-meter"></i></div><span class="pw-hint" id="pw-hint">Use 8+ characters with a number and symbol.</span><span class="err">At least 6 characters.</span></div>
+                <div class="field"><label for="pw-conf">Confirm new password</label><input class="input" id="pw-conf" type="password" data-rule="required match" data-match="#pw-new" autocomplete="new-password"><span class="err">Passwords don’t match.</span></div>
+                <div class="full"><button class="btn btn-primary" type="submit">Update password</button></div>
+              </form>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h3>Communication preferences</h3></div>
+            <div class="pref-banner"><img src="{{img:1601342630314-8427c38bf5e6|700|Dashboard · Profile — preferences banner (tablet & laptop)}}" alt="A hand holding a tablet beside a laptop and a mug" loading="lazy"></div>
+            <div class="switch-row"><div><strong>Class reminders</strong><span>1 hour before each class</span></div><label class="switch"><input type="checkbox" checked aria-label="Class reminders"><i></i></label></div>
+            <div class="switch-row"><div><strong>Fee reminders</strong><span>5 days before due date</span></div><label class="switch"><input type="checkbox" checked aria-label="Fee reminders"><i></i></label></div>
+            <div class="switch-row"><div><strong>Weekly progress report</strong><span>Every Sunday evening</span></div><label class="switch"><input type="checkbox" checked aria-label="Weekly progress report"><i></i></label></div>
+            <div class="switch-row"><div><strong>WhatsApp updates</strong><span>Batch news &amp; photos</span></div><label class="switch"><input type="checkbox" aria-label="WhatsApp updates"><i></i></label></div>
+            <div class="switch-row"><div><strong>Contest &amp; camp announcements</strong><span>Olympiads, holiday camps</span></div><label class="switch"><input type="checkbox" checked aria-label="Contest and camp announcements"><i></i></label></div>
+            <div class="field" style="margin-block-start:14px"><label for="pf-lang">Report language</label><select class="select" id="pf-lang"><option>English</option><option>தமிழ் (Tamil)</option><option>हिन्दी (Hindi)</option><option>العربية (Arabic)</option></select></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- ===== Modals ===== -->
+<div class="modal" id="enrol-modal" aria-hidden="true">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="enrol-title" tabindex="-1">
+    <div class="modal-strip" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="modal-head"><div><h2 id="enrol-title">Enrol</h2><p id="enrol-sub">Choose a child and batch.</p></div><button class="icon-btn" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="modal-body">
+      <form class="form-grid" id="enrol-form" novalidate>
+        <div class="field"><label for="en-child">Child</label><select class="select" id="en-child" data-rule="required"></select><span class="err">Select a child.</span></div>
+        <div class="field"><label for="en-start">Start date</label><select class="select" id="en-start"></select></div>
+        <fieldset class="field full" style="border:0;padding:0;margin:0"><legend style="font-weight:700;font-size:.88rem;margin-block-end:6px">Batch</legend><div class="radio-pills" id="en-batches"></div></fieldset>
+        <fieldset class="field full" style="border:0;padding:0;margin:0"><legend style="font-weight:700;font-size:.88rem;margin-block-end:6px">Mode</legend><div class="radio-pills" id="en-modes"></div></fieldset>
+        <div class="full pay-summary" id="en-summary"></div>
+        <label class="check full"><input type="checkbox" id="en-terms" checked> I agree to the academy’s fee and attendance policy</label>
+        <div class="full"><button class="btn btn-primary btn-block" type="submit">Confirm enrolment</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="pay-modal" aria-hidden="true">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="pay-title" tabindex="-1">
+    <div class="modal-strip" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="modal-head"><div><h2 id="pay-title">Secure payment</h2><p>SutraBead Academy</p></div><button class="icon-btn" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="modal-body">
+      <div id="pay-step-1">
+        <div class="pay-summary" id="pay-summary"></div>
+        <div class="method-tabs" role="radiogroup" aria-label="Payment method">
+          <label><input type="radio" name="pm" value="upi" checked><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>UPI</span></label>
+          <label><input type="radio" name="pm" value="card"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg>Card</span></label>
+          <label><input type="radio" name="pm" value="nb"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Net banking</span></label>
+        </div>
+        <form id="pay-form" novalidate>
+          <div data-pm="upi" class="form-grid"><div class="field full"><label for="pay-upi">UPI ID</label><input class="input" id="pay-upi" value="meera.iyer@okhdfcbank" data-rule="required upi"><span class="err">Enter a valid UPI ID (name@bank).</span></div></div>
+          <div data-pm="card" class="form-grid" hidden>
+            <div class="field full"><label for="pay-card">Card number</label><input class="input" id="pay-card" inputmode="numeric" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number"><span class="err">Enter a valid card number.</span></div>
+            <div class="field"><label for="pay-exp">Expiry (MM/YY)</label><input class="input" id="pay-exp" placeholder="08/29" maxlength="5" autocomplete="cc-exp"><span class="err">Use MM/YY.</span></div>
+            <div class="field"><label for="pay-cvv">CVV</label><input class="input" id="pay-cvv" type="password" inputmode="numeric" maxlength="4" placeholder="•••" autocomplete="cc-csc"><span class="err">3 or 4 digits.</span></div>
+            <div class="field full"><label for="pay-name">Name on card</label><input class="input" id="pay-name" value="MEERA IYER" autocomplete="cc-name"><span class="err">Required.</span></div>
+          </div>
+          <div data-pm="nb" class="form-grid" hidden><div class="field full"><label for="pay-bank">Your bank</label><select class="select" id="pay-bank"><option value="">Select bank</option><option>HDFC Bank</option><option>State Bank of India</option><option>ICICI Bank</option><option>Axis Bank</option><option>Indian Bank</option><option>Kotak Mahindra Bank</option></select><span class="err">Select your bank.</span></div></div>
+          <button class="btn btn-primary btn-block" type="submit" style="margin-block-start:18px" id="pay-submit">Pay</button>
+          <p class="secure-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>256-bit encrypted · PCI-DSS compliant</p>
+        </form>
+      </div>
+      <div id="pay-step-2" class="processing" hidden><span class="spinner" aria-hidden="true"></span><h3 class="center">Processing payment…</h3><p id="pay-proc-msg">Please approve the request in your UPI app. Don’t close this window.</p></div>
+      <div id="pay-step-3" class="form-success">
+        <div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
+        <h3 class="center">Payment successful</h3>
+        <p id="pay-done-msg"></p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn btn-primary" type="button" id="pay-view-receipt">View receipt</button><button class="btn btn-outline" type="button" data-close>Done</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="receipt-modal" aria-hidden="true">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="rc-title" tabindex="-1">
+    <div class="modal-head"><div><h2 id="rc-title">Fee receipt</h2><p id="rc-sub"></p></div><button class="icon-btn" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="modal-body"><div class="receipt" id="receipt"></div></div>
+    <div class="modal-foot"><button class="btn btn-outline" type="button" data-close>Close</button><button class="btn btn-primary" type="button" id="rc-print">Print / Save PDF</button></div>
+  </div>
+</div>
+
+<div class="modal" id="reschedule-modal" aria-hidden="true">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="rs-title" tabindex="-1">
+    <div class="modal-strip" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="modal-head"><div><h2 id="rs-title">Request a reschedule</h2><p>Make-up classes are free within the same month.</p></div><button class="icon-btn" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="modal-body">
+      <form class="form-grid" id="rs-form" novalidate>
+        <div class="field full"><label for="rs-class">Class to move</label><select class="select" id="rs-class" data-rule="required"></select><span class="err">Choose a class.</span></div>
+        <div class="field"><label for="rs-slot">Preferred make-up slot</label><select class="select" id="rs-slot" data-rule="required"><option value="">Select a slot</option><option>Fri 6 Nov · 5:00 pm (Centre)</option><option>Sat 7 Nov · 2:00 pm (Centre)</option><option>Sun 8 Nov · 11:00 am (Online)</option><option>Mon 9 Nov · 4:30 pm (Centre)</option></select><span class="err">Choose a slot.</span></div>
+        <div class="field"><label for="rs-reason">Reason</label><select class="select" id="rs-reason"><option>School event</option><option>Unwell</option><option>Travel</option><option>Other</option></select></div>
+        <div class="field full"><label for="rs-note">Note for the trainer (optional)</label><textarea class="textarea" id="rs-note" style="min-height:80px"></textarea></div>
+        <div class="full"><button class="btn btn-primary btn-block" type="submit">Send request</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="class-modal" aria-hidden="true">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="cl-title" tabindex="-1">
+    <div class="modal-head"><div><h2 id="cl-title">Class</h2><p id="cl-sub"></p></div><button class="icon-btn" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="modal-body"><dl class="facts" id="cl-facts"></dl></div>
+    <div class="modal-foot" id="cl-foot"></div>
+  </div>
+</div>
+
+<div class="modal" id="child-modal" aria-hidden="true">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="ac-title" tabindex="-1">
+    <div class="modal-strip" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="modal-head"><div><h2 id="ac-title">Add a child</h2><p>We’ll schedule a free level assessment for them.</p></div><button class="icon-btn" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="modal-body">
+      <form class="form-grid" id="child-form" novalidate>
+        <div class="field"><label for="ac-first">First name</label><input class="input" id="ac-first" data-rule="required"><span class="err">Required.</span></div>
+        <div class="field"><label for="ac-dob">Date of birth</label><input class="input" id="ac-dob" type="date" data-rule="required" max="2022-12-31" min="2011-01-01"><span class="err">Select a date of birth.</span></div>
+        <div class="field"><label for="ac-school">School</label><input class="input" id="ac-school" placeholder="e.g. Bala Vidya Mandir"></div>
+        <div class="field"><label for="ac-class">Class / grade</label><select class="select" id="ac-class"><option>LKG</option><option>UKG</option><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option></select></div>
+        <fieldset class="field full" style="border:0;padding:0;margin:0"><legend style="font-weight:700;font-size:.88rem;margin-block-end:6px">Interested in</legend><div class="radio-pills"><label><input type="radio" name="ac-prog" value="Abacus" checked><span>Abacus</span></label><label><input type="radio" name="ac-prog" value="Vedic Maths"><span>Vedic Maths</span></label><label><input type="radio" name="ac-prog" value="Both"><span>Both</span></label></div></fieldset>
+        <div class="full"><button class="btn btn-primary btn-block" type="submit">Add child</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="signout-modal" aria-hidden="true">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="so-title" tabindex="-1" style="width:min(420px,100%)">
+    <div class="modal-head"><div><h2 id="so-title">Sign out?</h2><p>You’ll need to sign in again to view your account.</p></div></div>
+    <div class="modal-foot" style="margin-block-start:20px"><button class="btn btn-outline" type="button" data-close>Stay signed in</button><button class="btn btn-primary" type="button" id="signout-btn">Sign out</button></div>
+  </div>
+</div>

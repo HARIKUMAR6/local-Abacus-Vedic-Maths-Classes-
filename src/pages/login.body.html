@@ -1,0 +1,84 @@
+<a class="skip-link" href="#main">Skip to sign in</a>
+<div class="auth">
+  <aside class="auth-visual">
+    <img src="{{img:1758598737516-ffd38ba74838|1400|Login · Visual panel — mother and son drawing together}}" alt="A mother and son drawing together at a table" fetchpriority="high">
+    <a class="brand" href="index.html" aria-label="SutraBead Academy home">{{LOGO}}<span class="brand-text"><span class="brand-name">SutraBead</span><span class="brand-tag">Abacus &amp; Vedic Maths Academy</span></span></a>
+    <div class="auth-quote">
+      <h2>Stay close to every step of the journey.</h2>
+      <p>Progress, timetables and fees for all your children — in one calm place.</p>
+      <div class="auth-chips"><span>📈 Level progress</span><span>🗓 Class timetable</span><span>🧾 Receipts</span></div>
+    </div>
+  </aside>
+
+  <main class="auth-main" id="main">
+    <div class="auth-top">
+      <a class="back" href="index.html"><svg class="flip-rtl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Back to website</a>
+      <div class="tools">{{TOGGLES}}</div>
+    </div>
+
+    <div class="auth-card">
+      <span class="eyebrow">Parent account</span>
+      <h1>Welcome back</h1>
+      <p>Sign in to see your child’s progress, classes and fees.</p>
+
+      <div class="tabs" role="tablist" aria-label="Sign-in method">
+        <button class="tab" role="tab" id="t-pass" aria-controls="p-pass" aria-selected="true">Email &amp; password</button>
+        <button class="tab" role="tab" id="t-otp" aria-controls="p-otp" aria-selected="false" tabindex="-1">Mobile OTP</button>
+      </div>
+
+      <div class="tab-panel" id="p-pass" role="tabpanel" aria-labelledby="t-pass">
+        <form class="auth-form" id="login-form" novalidate>
+          <div class="field"><label for="l-email">Registered email</label><input class="input" id="l-email" type="email" data-rule="required email" placeholder="you@example.com" autocomplete="username"><span class="err">Enter the email linked to your account.</span></div>
+          <div class="field">
+            <div class="row-between"><label for="l-pass">Password</label><button class="link-btn" type="button" data-open="forgot-modal">Forgot password?</button></div>
+            <div class="pw-wrap"><input class="input" id="l-pass" type="password" data-rule="required min6" placeholder="Minimum 6 characters" autocomplete="current-password">
+              <button class="pw-toggle" type="button" data-pw-toggle="l-pass" aria-label="Show password"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+            <span class="err">Password must be at least 6 characters.</span>
+          </div>
+          <label class="check"><input type="checkbox" id="l-remember" checked> Keep me signed in on this device</label>
+          <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+        </form>
+      </div>
+
+      <div class="tab-panel" id="p-otp" role="tabpanel" aria-labelledby="t-otp" hidden>
+        <form class="auth-form" id="otp-form" novalidate>
+          <div class="field"><label for="o-phone">Registered mobile number</label><input class="input" id="o-phone" type="tel" data-rule="required phone" placeholder="+91 98400 12345" autocomplete="tel"><span class="err">Enter a valid 10-digit mobile number.</span></div>
+          <div id="otp-step" hidden>
+            <p class="otp-sent" id="otp-msg" role="status"></p>
+            <div class="field"><label for="o-code">6-digit OTP</label><input class="input" id="o-code" inputmode="numeric" maxlength="6" placeholder="• • • • • •" autocomplete="one-time-code" style="letter-spacing:.5em;font-weight:800;text-align:center"><span class="err">Enter the 6-digit code.</span></div>
+            <div class="row-between"><span class="pw-hint" id="otp-timer"></span><button class="link-btn" type="button" id="otp-resend" disabled>Resend OTP</button></div>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit" id="otp-submit">Send OTP</button>
+        </form>
+      </div>
+
+      <p class="secure-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Your account is protected with encrypted sign-in</p>
+
+      <div class="auth-alt">New to SutraBead? <button class="link-btn" type="button" data-open="assess-modal">Book a free assessment</button> — your parent account is created on enrolment.</div>
+    </div>
+
+    <div class="auth-foot"><span>Need help? <a href="contact.html#enquiry">Send us a message</a></span><span><a href="contact.html">Contact support</a></span></div>
+  </main>
+</div>
+
+<!-- Forgot password -->
+<div class="modal" id="forgot-modal" aria-hidden="true">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="fp-title" tabindex="-1">
+    <div class="modal-strip" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="modal-head"><div><h2 id="fp-title">Reset your password</h2><p>We’ll email you a secure link to set a new one.</p></div>
+      <button class="icon-btn" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="modal-body">
+      <form class="auth-form" id="forgot-form" novalidate>
+        <div class="field"><label for="fp-email">Registered email</label><input class="input" id="fp-email" type="email" data-rule="required email" placeholder="you@example.com"><span class="err">Enter a valid email address.</span></div>
+        <button class="btn btn-primary btn-block" type="submit">Send reset link</button>
+      </form>
+      <div class="form-success" id="forgot-success">
+        <div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg></div>
+        <h3 class="center">Check your inbox</h3>
+        <p id="forgot-msg">A reset link is on its way. It expires in 30 minutes.</p>
+        <button class="btn btn-outline" type="button" data-close>Back to sign in</button>
+      </div>
+    </div>
+  </div>
+</div>
