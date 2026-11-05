@@ -202,7 +202,7 @@ var steps = [
       tabs[1].click(); log(!d.getElementById('rp-vedic').hidden && d.getElementById('rp-abacus').hidden && tabs[1].getAttribute('aria-selected') === 'true', 'Trainer role tab click shows Vedic Maths Trainer panel');
       tabs[1].focus(); tabs[1].dispatchEvent(new w.KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
       log(d.activeElement === tabs[2] && !d.getElementById('rp-junior').hidden, 'Trainer roles: ArrowDown moves to next role (vertical tablist)');
-      var b = d.querySelector('.ab-intro [data-open="assess-modal"]'); b.click();
+      var b = d.querySelector('section.ih [data-open="assess-modal"]'); b.click();
       log(d.getElementById('assess-modal') && d.getElementById('assess-modal').classList.contains('open'), 'About intro CTA opens the free-assessment form');
       d.querySelector('#assess-modal [data-close]').click();
       checkLinks(d, 'about.html', 'About (header + content + footer)', n);
@@ -211,10 +211,21 @@ var steps = [
   // ---------- Phase 3: Contact page ----------
   function (n) {
     load('contact.html', 1440, function (w, d) {
-      var secs = d.querySelectorAll('main > section'), noImg = [].filter.call(secs, function (s) { return !s.querySelector('img'); }).length;
-      log(secs.length === 4 && noImg === 0, 'Contact: 4 Stage-1 sections (hero, information, form, FAQ), each with an image');
-      log(!d.querySelector('iframe') && !/google\.[a-z.]+\/maps|maps\.google/i.test(d.documentElement.innerHTML), 'Contact: no map embed or map link yet (waiting for verified address)');
-      var hero = d.querySelector('.ct-hero');
+      var secs = d.querySelectorAll('main > section'), noImg = [].filter.call(secs, function (s) { return !s.querySelector('img, iframe'); }).length;
+      log(secs.length === 5 && noImg === 0, 'Contact: 5 sections (hero, information, map, form, FAQ), each with an image or map');
+      // Map rule (until the verified academy address arrives in Stage 2): one general India map, no pinned location,
+      // no Google Maps place/address link, no street address shown; map spans the full content container.
+      (function () {
+        var frames = d.querySelectorAll('iframe'), fr = frames[0], src = fr ? fr.getAttribute('src') : '';
+        var html = d.documentElement.innerHTML, map = d.querySelector('#map .map-frame'), cont = map && map.closest('.container');
+        var general = /openstreetmap\.org\/export\/embed\.html\?bbox=70\.0%2C9\.0%2C90\.0%2C31\.0/.test(src) && !/marker=/.test(src);
+        var noGuess = !/google\.[a-z.]+\/maps|maps\.google|goo\.gl\/maps|maps\.app\.goo\.gl/i.test(html) && !/\b\d{6}\b|\b(Road|Street|Nagar|Avenue)\b/.test(d.getElementById('reach').textContent + map.textContent);
+        var cs = cont && w.getComputedStyle(cont), inner = cont ? cont.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) : 0;
+        var full = map && Math.abs(map.getBoundingClientRect().width - inner) <= 2 && fr && Math.abs(fr.getBoundingClientRect().width - map.clientWidth) <= 2 && fr.getBoundingClientRect().height >= 280;
+        log(frames.length === 1 && general && noGuess, 'Contact map: one general India map (no pinned location, no Google/address link, no street address shown)');
+        log(full && !!d.querySelector('#map .map-link[target="_blank"]') && !!fr.getAttribute('title'), 'Contact map: full content-container width, ' + Math.round(fr ? fr.getBoundingClientRect().height : 0) + 'px tall, titled, open-in-new-tab link');
+      })();
+      var hero = d.querySelector('section.ih');
       log(!!hero.querySelector('h1') && !!hero.querySelector('a[href="#enquiry"]') && !!hero.querySelector('[data-open="assess-modal"]') && !!hero.querySelector('img'), 'Contact hero: heading, enquiry CTA, assessment CTA and visual');
       var dts = [].map.call(d.querySelectorAll('.ct-channel dt'), function (x) { return x.textContent.trim(); }), info = d.getElementById('reach').textContent;
       log(dts.join(',') === 'Phone,Email,Academy address,Working hours', 'Contact information categories: ' + dts.join(', '));
@@ -266,6 +277,29 @@ var steps = [
         checkLinks(d, 'contact.html', 'Contact (header + content + footer)', n);
       }, 1300);
     });
+  },
+  // ---------- Inner-page hero system: Programs, Competitions, About, Contact share one height/layout ----------
+  function (n) {
+    var pages = ['programs.html', 'competitions.html', 'about.html', 'contact.html'], widths = [1440, 820, 390], jobs = [], res = {};
+    widths.forEach(function (w) { pages.forEach(function (p) { jobs.push([p, w]); }); });
+    localStorage.setItem('sb-theme', 'light'); localStorage.setItem('sb-dir', 'ltr');
+    (function next() {
+      var j = jobs.shift();
+      if (!j) {
+        widths.forEach(function (w) {
+          var r = pages.map(function (p) { return res[p + w]; }), H = r.map(function (x) { return x.H; }), T = r.map(function (x) { return x.h1; }), F = r.map(function (x) { return x.frame; });
+          var sameH = Math.max.apply(null, H) - Math.min.apply(null, H) <= 1, sameT = Math.max.apply(null, T) - Math.min.apply(null, T) <= 1, sameF = w < 960 || F.every(function (f) { return f === F[0]; });
+          log(sameH && sameT && sameF && r.every(function (x) { return x.shared; }), 'Inner heroes @' + w + 'px: shared .ih component, heights ' + H.join('/') + ', h1 offset ' + T.join('/') + (w >= 960 ? ', frames ' + F.join(' ') : ''));
+        });
+        n(); return;
+      }
+      load(j[0], j[1], function (w, d) {
+        d.querySelectorAll('.reveal').forEach(function (e) { e.classList.add('in'); });
+        var s = d.querySelector('main > section.ih'), h1 = s && s.querySelector('h1'), fr = s && s.querySelector('.ih-frame');
+        res[j[0] + j[1]] = { shared: !!(s && s.classList.contains('inner-hero') && fr && s.querySelector('.ih-copy .ih-actions')), H: s ? Math.round(s.getBoundingClientRect().height) : 0, h1: h1 ? Math.round(h1.getBoundingClientRect().top - s.getBoundingClientRect().top) : -1, frame: fr ? Math.round(fr.getBoundingClientRect().width) + 'x' + Math.round(fr.getBoundingClientRect().height) : '' };
+        next();
+      }, 900);
+    })();
   },
   // ---------- Phase 3: theme × direction matrix for About and Contact ----------
   function (n) {

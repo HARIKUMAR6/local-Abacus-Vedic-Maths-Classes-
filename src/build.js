@@ -181,5 +181,14 @@ for (const p of PAGES) {
 let md = "# Image Usage Record\n\nEvery image appears exactly once across the website. `npm run build` regenerates this file and stops with an error if any image is used twice.\n\n| # | Page | Section / usage | Unsplash photo ID |\n|---|---|---|---|\n";
 registry.forEach((r, i) => { md += `| ${i + 1} | ${r[0]} | ${r[1]} | photo-${r[2]} |\n`; });
 md += `\nTotal unique images: ${registry.length}\n`;
+// Local illustrations (not photos) — recorded so later phases never reuse them.
+const LOCAL = [
+  ["home-2.html", "Home 2 · Testimonials — illustrated parent avatar 1", "assets/img/avatars/parent-1.svg"],
+  ["home-2.html", "Home 2 · Testimonials — illustrated parent avatar 2", "assets/img/avatars/parent-2.svg"],
+  ["home-2.html", "Home 2 · Testimonials — illustrated parent avatar 3", "assets/img/avatars/parent-3.svg"],
+  ["home-2.html", "Home 2 · Testimonials — illustrated parent avatar 4", "assets/img/avatars/parent-4.svg"],
+];
+for (const l of LOCAL) if (!fs.existsSync(path.join(ROOT, l[2]))) throw new Error("Missing illustration " + l[2]);
+md += "\n## Local illustrations\n\nOriginal, non-identifiable SVG illustrations (no real people).\n\n| Page | Usage | File |\n|---|---|---|\n" + LOCAL.map((l) => `| ${l[0]} | ${l[1]} | ${l[2]} |`).join("\n") + "\n";
 fs.writeFileSync(path.join(ROOT, "IMAGE-REGISTRY.md"), md);
 console.log("Built", PAGES.length, "pages;", registry.length, "unique images");

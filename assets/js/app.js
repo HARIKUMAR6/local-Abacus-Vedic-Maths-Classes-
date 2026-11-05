@@ -292,9 +292,10 @@
       dds.forEach(function (dd) {
         var btn = dd.querySelector("[data-dropdown-btn]"), menu = dd.querySelector(".sb-dropdown"), t;
         var setOpen = function (o) { btn.setAttribute("aria-expanded", o ? "true" : "false"); menu.hidden = !o; };
-        btn.addEventListener("click", function (e) { e.stopPropagation(); var o = menu.hidden; closeDropdowns(dd); setOpen(o); if (o) { var f = menu.querySelector("a"); if (f && e.detail === 0) f.focus(); } });
+        var hoverOpenedAt = 0; // a click right after hover opened the menu must not immediately close it
+        btn.addEventListener("click", function (e) { e.stopPropagation(); var o = menu.hidden || (hoverOpenedAt && Date.now() - hoverOpenedAt < 600); hoverOpenedAt = 0; closeDropdowns(dd); setOpen(o); if (o) { var f = menu.querySelector("a"); if (f && e.detail === 0) f.focus(); } });
         if (window.matchMedia && window.matchMedia("(hover: hover)").matches) {
-          dd.addEventListener("mouseenter", function () { clearTimeout(t); closeDropdowns(dd); setOpen(true); });
+          dd.addEventListener("mouseenter", function () { clearTimeout(t); closeDropdowns(dd); if (menu.hidden) hoverOpenedAt = Date.now(); setOpen(true); });
           dd.addEventListener("mouseleave", function () { t = setTimeout(function () { setOpen(false); }, 160); });
         }
         dd.addEventListener("keydown", function (e) {

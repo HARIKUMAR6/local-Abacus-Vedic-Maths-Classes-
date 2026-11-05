@@ -630,7 +630,6 @@ a[href^="tel:"], a[href^="mailto:"] { direction: ltr; unicode-bidi: isolate; }
 .side-help a { text-decoration: underline; text-decoration-color: rgba(255, 210, 122, .45); text-underline-offset: 3px; border-radius: 4px; }
 .side-help a:hover { color: #fff; text-decoration-color: currentColor; }
 .btn:focus-visible, .icon-btn:focus-visible { box-shadow: var(--focus); }
-:is(.sb-footer, .band, .pg-vedic, .cp-arena, .side-help, .auth-visual, .cta-photo) :focus-visible { box-shadow: 0 0 0 3px #ffd27a; }
 
 /* ---------- QA: very small phones (320–374px) ---------- */
 @media (max-width: 374px) {
@@ -691,3 +690,145 @@ p, li, dd, figcaption { text-wrap: pretty; }
 :where([dir="rtl"]) :where(.hero-proof strong, .counter strong, .mini-stats strong, .k-val, .kpi .k-sub, .soroban-value, .cp-tally b, .cp-tally span) { text-align: right; }
 /* Scroll to top: fades out at rest only where it would otherwise cover a control (set by app.js) */
 .to-top.is-visible.is-tucked { opacity: 0; visibility: hidden; }
+
+/* =====================================================================
+   INNER-PAGE HERO TOKENS — shared colour/type tokens (.inner-hero) used by the
+   public inner-page hero component (.ih, below) and by the Login Portal and
+   Parent Dashboard panels. Lives in styles.css because Login/Dashboard do not
+   load tailwind.css. Home 1 & Home 2 keep their own heroes.
+   ===================================================================== */
+:root {
+  --ih-bg: linear-gradient(180deg, var(--brand-soft) 0%, color-mix(in srgb, var(--brand-soft) 45%, var(--bg)) 58%, var(--bg) 100%);
+  --ih-dots: radial-gradient(color-mix(in srgb, var(--brand) 16%, transparent) 1.2px, transparent 1.5px);
+  --ih-h1: clamp(2.2rem, 4.2vw, 3.4rem);
+  --ih-lead: clamp(1.02rem, 1.3vw, 1.14rem);
+  --ih-radius: 28px;
+}
+.inner-hero { position: relative; isolation: isolate; background: var(--ih-bg); color: var(--ink); border-block-end: 1px solid var(--line); }
+.inner-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background-image: var(--ih-dots); background-size: 24px 24px; -webkit-mask-image: linear-gradient(to bottom, #000, transparent 85%); mask-image: linear-gradient(to bottom, #000, transparent 85%); }
+.inner-hero::after { content: ""; position: absolute; inset-inline: 0; inset-block-end: -1px; height: 4px; pointer-events: none;
+  background: linear-gradient(90deg, var(--coral) 0 18%, var(--saffron) 18% 40%, var(--teal) 40% 62%, var(--brand) 62% 100%); opacity: .85; }
+.inner-hero .numeral-bg { display: none; }
+/* Shared type scale & rhythm */
+.inner-hero h1 { font-size: var(--ih-h1); line-height: 1.08; margin-block-end: .4em; color: var(--ink); }
+.inner-hero h1 span, .inner-hero h1 .text-brand { color: var(--brand); }
+.inner-hero .lead { font-size: var(--ih-lead); color: var(--ink-2); max-width: 56ch; }
+.inner-hero .crumbs { margin-block-end: 12px; }
+.inner-hero .crumbs, .inner-hero .crumbs a { color: var(--muted); }
+.inner-hero .crumbs a:hover { color: var(--brand); }
+.inner-hero .eyebrow { margin-block-end: 14px; background: var(--surface); border: 1px solid var(--line); color: var(--brand-soft-ink); }
+
+
+
+/* Login Portal: the visual panel becomes the shared inner hero (photo framed, dark text) */
+.auth-visual.inner-hero { color: var(--ink); gap: 20px; justify-content: flex-start; border-block-end: 0; border-inline-end: 1px solid var(--line); }
+.auth-visual.inner-hero::after { inset-block-end: 0; }
+.auth-visual.inner-hero > img { position: relative; inset: auto; z-index: auto; order: 3; width: 100%; flex: 1 1 0; height: auto; min-height: 240px; max-height: 560px; border-radius: var(--ih-radius); box-shadow: var(--shadow-lg); }
+.auth-visual.inner-hero .brand, .auth-visual.inner-hero .brand:hover { color: var(--ink); }
+.auth-visual.inner-hero .brand-tag { color: var(--muted); }
+.auth-visual.inner-hero .auth-quote { max-width: 520px; }
+.auth-visual.inner-hero .auth-quote h2 { color: var(--ink); font-size: clamp(1.7rem, 2.8vw, 2.4rem); }
+.auth-visual.inner-hero .auth-quote p { color: var(--ink-2); font-size: var(--ih-lead); }
+.auth-visual.inner-hero .auth-chips span { background: var(--surface); border-color: var(--line); color: var(--ink); backdrop-filter: none; }
+@media (max-width: 900px) {
+  .auth-visual.inner-hero { border-inline-end: 0; border-block-end: 1px solid var(--line); }
+  .auth-visual.inner-hero > img { flex: none; height: 200px; min-height: 0; }
+}
+
+/* Parent Dashboard: welcome banner and per-view heroes use the same treatment */
+.welcome.inner-hero, .view-hero.inner-hero { background: var(--ih-bg); border: 1px solid var(--line); }
+.welcome.inner-hero { color: var(--ink); }
+.welcome.inner-hero h2 { color: var(--ink); font-size: clamp(1.7rem, 2.8vw, 2.3rem); }
+.welcome.inner-hero p { color: var(--ink-2); font-size: var(--ih-lead); }
+.welcome.inner-hero .w-img::before { display: none; }
+.welcome.inner-hero .w-img { margin: 14px; border-radius: calc(var(--ih-radius) - 8px); overflow: hidden; }
+.welcome.inner-hero .btn-outline { background: var(--surface); color: var(--ink); border-color: var(--line-strong); }
+.welcome.inner-hero .btn-outline:hover { color: var(--brand); border-color: var(--brand); }
+.view-hero.inner-hero .vh-copy h2 { font-size: clamp(1.45rem, 2.2vw, 1.9rem); }
+.view-hero.inner-hero .vh-copy p { color: var(--ink-2); }
+.view-hero.inner-hero .vh-img { margin: 12px; border-radius: calc(var(--ih-radius) - 10px); overflow: hidden; }
+@media (max-width: 760px) {
+  .welcome.inner-hero .w-img { margin: 12px 12px 0; min-height: 170px; }
+  .view-hero.inner-hero .vh-img { margin: 12px 12px 0; }
+}
+
+/* =====================================================================
+   INNER-PAGE HERO COMPONENT (.ih) — Programs, Competitions, About, Contact
+   One structure: .ih > .container.ih-grid > .ih-copy + .ih-media(.ih-frame + overlays)
+   Every size is a shared token, so all four heroes have the same height,
+   column split, type, spacing, image frame and CTA placement at each viewport.
+   ===================================================================== */
+/* Height rule: every hero gets the same height budget (--ih-min-h) at a given breakpoint.
+   Copy is top-aligned (headings land at the same position on every page) and the image
+   frame stretches to fill the budget, so short and long pages end up the same size with
+   no blank gaps. Content is never clipped — a hero only grows if its copy needs more room. */
+.ih {
+  --ih-pad-top: clamp(28px, 4vw, 48px);
+  --ih-pad-bottom: clamp(40px, 5vw, 64px);
+  --ih-min-h: clamp(640px, calc(100svh - 76px), 700px); /* 76px = sticky header */
+  --ih-frame-min: 360px;
+  --ih-gap: clamp(32px, 5vw, 72px);
+  box-sizing: border-box; min-height: var(--ih-min-h); padding-block: var(--ih-pad-top) var(--ih-pad-bottom);
+  display: flex; flex-direction: column;
+}
+/* .container and .ih-grid are the same element — only sizing here, never display */
+.ih > .ih-grid { width: 100%; flex: 1 0 auto; }
+.ih-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: var(--ih-gap); align-items: stretch; }
+.ih-copy { min-width: 0; max-width: 620px; align-self: start; }
+.ih h1 { text-wrap: balance; }
+.ih .lead { max-width: 52ch; margin-block-end: 0; }
+.ih-tags { list-style: none; margin: 20px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.ih-tags li { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding-block: 6px; padding-inline: 8px 14px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-weight: 700; font-size: .88rem; color: var(--ink); }
+.ih-tags li .ico { width: 26px; height: 26px; border-radius: 50%; }
+.ih-tags li .ico svg { width: 14px; height: 14px; }
+.ih-tags li .ab-bead { margin-inline-start: 6px; }
+.ih-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-block-start: 28px; }
+
+.ih-media { position: relative; min-width: 0; display: flex; flex-direction: column; }
+.ih-frame { position: relative; flex: 1 1 auto; min-height: var(--ih-frame-min); border-radius: var(--ih-radius); overflow: hidden; background: var(--surface-2); box-shadow: var(--shadow-lg); }
+/* absolutely positioned so the photo's natural size can never stretch the frame */
+.ih-frame img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+/* Overlays always sit inside the frame bounds */
+.ih-note { position: absolute; inset-block-end: 16px; inset-inline-start: 16px; max-width: calc(100% - 32px); display: flex; flex-direction: column; gap: 2px; padding: 12px 16px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); color: var(--ink); }
+.ih-note strong { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; line-height: 1.05; color: var(--brand); }
+.ih-note span { font-size: .88rem; font-weight: 700; color: var(--ink-2); }
+.ih-stats { flex-direction: row; gap: 0; padding: 0; }
+.ih-stats > div { display: flex; flex-direction: column; padding: 10px 16px; }
+.ih-stats > div + div { border-inline-start: 1px dashed var(--line-strong); }
+.ih-stats span { font-size: .76rem; }
+.ih-bubble { position: absolute; max-width: min(260px, calc(100% - 32px)); padding: 10px 14px; border-radius: 16px; font-weight: 600; font-size: .9rem; line-height: 1.4; box-shadow: var(--shadow); }
+.ih-bubble small { display: block; font-size: .68rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; opacity: .8; }
+.ih-bubble.is-parent { inset-block-start: 16px; inset-inline-start: 16px; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-end-start-radius: 4px; }
+.ih-bubble.is-academy { inset-block-end: 16px; inset-inline-end: 16px; background: var(--brand); color: var(--on-brand); border-end-end-radius: 4px; }
+[dir="rtl"] :is(.ih-tags li, .ih-note span, .ih-bubble) { unicode-bidi: plaintext; }
+/* Direction: nothing here is pinned. The grid, copy column, breadcrumb, chips, buttons and image
+   overlays all use logical properties, so RTL swaps the columns and every row starts on the right.
+   Body text follows the global RTL rule (aligned to the start side). */
+/* Headings are the one exception: always left-aligned, never right-aligned, in LTR and RTL. */
+.ih-copy :is(h1, h2, h3, h4, h5, h6) { text-align: left; }
+/* Decorative details mirror with the layout (scoped to .ih — Login and Dashboard keep theirs) */
+[dir="rtl"] .ih .eyebrow::before { box-shadow: -12px 0 0 var(--coral); }
+[dir="rtl"] .ih.inner-hero::after { transform: scaleX(-1); }
+.ih-note strong { direction: ltr; unicode-bidi: isolate; } /* "4–12" must never render as "12–4" */
+
+/* Tablet: stacked, image becomes a wide band; same rules on every page */
+@media (max-width: 959px) {
+  .ih { --ih-min-h: 840px; --ih-frame-min: 300px; }
+  .ih-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; gap: 28px; }
+  .ih-copy { max-width: 680px; }
+}
+/* Mobile: compact — the secondary tag row is hidden on all four pages so copy lengths converge */
+@media (max-width: 639px) {
+  .ih { --ih-pad-top: 20px; --ih-pad-bottom: 36px; --ih-min-h: 780px; --ih-frame-min: 230px; }
+  .ih-grid { gap: 22px; }
+  .ih-tags { display: none; }
+  .ih-eyebrow-extra { display: none; } /* keeps every hero label on one line so headings align */
+  .ih-actions { margin-block-start: 22px; }
+  .ih-actions > .btn { flex: 1 1 100%; }
+  .ih-note { inset-block-end: 12px; inset-inline-start: 12px; max-width: calc(100% - 24px); padding: 10px 12px; }
+  .ih-note strong { font-size: 1.3rem; }
+  .ih-stats > div { padding: 8px 12px; }
+  .ih-bubble { font-size: .8rem; padding: 8px 12px; max-width: calc(100% - 24px); }
+  .ih-bubble.is-parent { inset-block-start: 12px; inset-inline-start: 12px; }
+  .ih-bubble.is-academy { inset-block-end: 12px; inset-inline-end: 12px; }
+}
